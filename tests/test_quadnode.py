@@ -1,5 +1,5 @@
 import pytest
-from astroQTpy.quadtree import QuadPoint
+from astroqtpy.node import QuadPoint
 
 
 def test_quad_point() -> None:
