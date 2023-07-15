@@ -2,6 +2,10 @@ from dataclasses import dataclass
 
 @dataclass
 class QuadPoint():
+    """Quadtree point
+
+    A data class to store a value at coordinates (x, y).
+    """
     _x : float
     _y : float
     _value : float = -1
