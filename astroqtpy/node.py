@@ -1,3 +1,4 @@
+import abc
 from dataclasses import dataclass
 
 @dataclass
@@ -30,5 +31,18 @@ class QuadPoint():
     @value.setter
     def value(self, val: float) -> None:
         self._value = val
-        
 
+
+
+class QuadNode(abc.ABC):
+    """Quadtree node
+
+    An abstract class for a quadtree node.
+
+    Args:
+        
+    """
+    def __init__(self) -> None:
+        super().__init__()
+        
+        
