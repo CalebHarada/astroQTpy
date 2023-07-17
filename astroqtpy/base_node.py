@@ -5,6 +5,13 @@ class QuadNode(abc.ABC):
     """Quadtree node
 
     A base class for all released types of astroQTpy quadtree nodes.
+    
+    Args:
+            x_min (float): Minimum x value of this node.
+            x_max (float): Maximum x value of this node.
+            y_min (float): Minimum y value of this node.
+            y_max (float): Maximum y value of this node.
+            depth (int, optional): Depth of this node. Defaults to 0.
     """
     def __init__(self,
         x_min : float,
@@ -16,13 +23,6 @@ class QuadNode(abc.ABC):
         """__init__
 
         Create the base quad tree node for astroQTpy.
-
-        Args:
-            x_min (float): Minimum x value of this node.
-            x_max (float): Maximum x value of this node.
-            y_min (float): Minimum y value of this node.
-            y_max (float): Maximum y value of this node.
-            depth (int, optional): Depth of this node. Defaults to 0.
         """
         
         super().__init__()
@@ -67,7 +67,7 @@ class QuadNode(abc.ABC):
     
     
     def print_points(self):
-        """Conveniance function to print out each point in this node.
+        """Convenience function to print out each point in this node.
         
         """
         if self.is_split():
@@ -107,14 +107,14 @@ class QuadNode(abc.ABC):
         pass
     
     
-    def draw_node(self, axis, cmap: str = 'cividis_r', **ax_kwargs):
+    def draw_node(self, ax, cmap: str = 'cividis_r', **ax_kwargs):
         """Draw node
 
         Plot this node on a matplotlib axis.
 
         Args:
-            axis (:obj:`matplotlib.pyplot.Axes`): Axis for plotting.
-            cmap (str, optional): _description_. Defaults to 'cividis_r'.
+            ax (:obj:`matplotlib.pyplot.Axes`): Axis for plotting.
+            cmap (str, optional): Matplotlib colormap for nodes. Defaults to 'cividis_r'.
             **ax_kwargs: Keyword arguments passed to :obj:`matplotlib.pyplot.Axes` object.
         """
         
@@ -128,7 +128,7 @@ class QuadNode(abc.ABC):
         cm = mpl.cm.get_cmap(cmap)
         
         if not self.is_split():
-            axis.plot([x1, x2, x2, x1, x1], [y2, y2, y1, y1, y2], **ax_kwargs)
-            axis.fill_between([x1,x2], [y1,y1], [y2,y2], color=cm(self.get_node_value()), alpha=0.8)
-            axis.text(x_mid, y_mid, int(100*self.get_node_value()),
+            ax.plot([x1, x2, x2, x1, x1], [y2, y2, y1, y1, y2], **ax_kwargs)
+            ax.fill_between([x1,x2], [y1,y1], [y2,y2], color=cm(self.get_node_value()), alpha=0.8)
+            ax.text(x_mid, y_mid, int(100*self.get_node_value()),
                     horizontalalignment="center", verticalalignment="center", c="k", size=10)
