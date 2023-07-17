@@ -90,7 +90,7 @@ class QuadNode(abc.ABC):
         pass
     
     
-    def get_node_value(self):
+    def _get_node_value(self):
         """Convenience function to grab node value.
         
         """
@@ -99,14 +99,14 @@ class QuadNode(abc.ABC):
         return self.node_value
     
     
-    def is_split(self):
+    def _is_split(self):
         """Convenience function to check if this node has split.
         
         """
         return self.child_nw is not None
     
     
-    def print_points(self):
+    def _print_points(self):
         """Convenience function to print out each point in this node.
         
         """
@@ -124,7 +124,7 @@ class QuadNode(abc.ABC):
                 print(f"{point.x:.5f}\t{point.y:.5f}\t{point.stable}\t")
           
           
-    def print_node_value(self):
+    def _print_node_value(self):
         """Convenience function to print the value of this node.
         
         """
