@@ -1,2 +1,3 @@
-from astroqtpy.node import QuadNode
+from point import QuadPoint
+
 
