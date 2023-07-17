@@ -1,8 +1,8 @@
 import pytest
-from astroqtpy.point import QuadPoint
+from astroqtpy.base_node import QuadPoint
 
 def test_quad_point() -> None:
-    """Test the QuadPoint dataclass
+    """Test the QuadPoint dataclass.
     
     """
 

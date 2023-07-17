@@ -3,7 +3,7 @@
 Base Node
 =====================
 
-Abstract base class for all node types in astroQTpy.
+Base component classes for astroQTpy.
 
 .. automodule:: astroqtpy.base_node
    :members:
