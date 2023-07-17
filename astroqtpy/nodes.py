@@ -7,5 +7,8 @@ class NbodyNode(QuadNode):
         super().__init__(x_min, x_max, y_min, y_max, depth)
         
         
-    def generate_node_value():
+    def generate_node_value(self):
+        pass
+    
+    def split_node(self):
         pass

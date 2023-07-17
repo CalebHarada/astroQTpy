@@ -1,5 +1,6 @@
 import pytest
 from astroqtpy.nodes import NbodyNode
+import matplotlib.pyplot as plt
 
 def test_nbody_node() -> None:
     """Test the Nbody QuadNode class
@@ -9,7 +10,7 @@ def test_nbody_node() -> None:
     # test instantiation of Nbody Node
     my_node = NbodyNode(0, 1, 0, 1)
     
-    assert my_node.is_split() == False    
+    assert my_node.is_split() == False
     
     
 if __name__ == "__main__":
