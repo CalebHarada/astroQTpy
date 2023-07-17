@@ -1,6 +1,11 @@
-from base_node import QuadNode
+from .base_node import QuadNode
 
-class StabilityNode(QuadNode):
+class NbodyNode(QuadNode):
     
-    def __init__(self):
+    def __init__(self, x_min, x_max, y_min, y_max, depth=0):
+        
+        super().__init__(x_min, x_max, y_min, y_max, depth)
+        
+        
+    def generate_node_value():
         pass

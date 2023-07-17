@@ -35,6 +35,18 @@ class QuadNode(abc.ABC):
         self.node_value = -1.0
         self.node_points = []  # to store QuadPoint objects
         
+        self.child_nw = None
+        self.child_ne = None
+        self.child_sw = None
+        self.child_se = None
+        
+    
+    def is_split(self):
+        """Convenience function to check if this node has split
+        
+        """
+        return self.child_nw is not None
+        
     
     @abc.abstractmethod
     def generate_node_value(self):

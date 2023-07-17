@@ -1,3 +1,4 @@
-from point import QuadPoint
+from nodes import NbodyNode
+
 
 
