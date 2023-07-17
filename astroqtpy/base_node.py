@@ -26,11 +26,11 @@ class QuadNode(abc.ABC):
         
         super().__init__()
         
-        self._x_min = x_min
-        self._x_max = x_max
-        self._y_min = y_min
-        self._y_max = y_max
-        self._depth = depth
+        self.x_min = x_min
+        self.x_max = x_max
+        self.y_min = y_min
+        self.y_max = y_max
+        self.depth = depth
         
         self.node_value = -1.0
         self.node_points = []  # to store QuadPoint objects

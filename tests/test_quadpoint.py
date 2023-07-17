@@ -1,12 +1,11 @@
 import pytest
 from astroqtpy.point import QuadPoint
 
-
 def test_quad_point() -> None:
     """Test the QuadPoint dataclass
     
     """
-    
+
     # set ground truth values
     x = 2.3
     y = 3.1
