@@ -1,4 +1,0 @@
-from nodes import NbodyNode
-
-
-

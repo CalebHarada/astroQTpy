@@ -1,5 +1,5 @@
 import pytest
-from astroqtpy.nodes import NbodyNode
+from astroqtpy.quadnodes import NbodyNode
 import matplotlib.pyplot as plt
 
 def test_nbody_node() -> None:
