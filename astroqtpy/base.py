@@ -62,7 +62,7 @@ class QuadNode(abc.ABC):
         ) -> None:
         """__init__
 
-        Create the base quad tree node for astroQTpy.
+        Create the base quadtree node for astroQTpy.
         """
         
         super().__init__()
