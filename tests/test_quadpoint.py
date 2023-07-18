@@ -28,7 +28,7 @@ def test_quad_point() -> None:
     point.val = value_new
     assert point.x == x_new
     assert point.y == y_new
-    assert point.val == value_new    
+    assert point.val == value_new
     
     
     

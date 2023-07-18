@@ -1,6 +1,7 @@
 import abc
 from dataclasses import dataclass
 
+import numpy as np
 import matplotlib as mpl
 
 
@@ -73,7 +74,7 @@ class QuadNode(abc.ABC):
         self.y_max = y_max
         self.depth = depth
         
-        self.node_value = -1.0
+        self.node_value = -np.inf
         self.node_points = []  # to store QuadPoint objects
         
         self.child_nw = None
@@ -83,19 +84,38 @@ class QuadNode(abc.ABC):
      
     
     @abc.abstractmethod
-    def generate_node_value(self):
-        """Abstract method to generate node value.
-
+    def split_node(self) -> None:
+        """Abstract method to split this node into 4 equal child nodes.
+        
         """
         pass
+    
+    
+    def generate_node_value(self, statistic='mean') -> None:
+        """Generate node value.
+        
+        Args:
+            statistic (str, optional): Statistic to compute for this node. Defaults to 'mean'.
+        """
+        
+        # TO DO: allow multiple options for statistic (e.g., std, median, mean...)
+        
+        if len(self.node_points) == 0:
+            return
+        
+        node_point_values = [point.value for point in self.node_points]
+        
+        if statistic == 'mean':
+            self.node_value = np.mean(node_point_values)
     
     
     def _get_node_value(self):
         """Convenience function to grab node value.
         
         """
-        if True:
+        if self.node_value == -np.inf:
             self.generate_node_value()
+            
         return self.node_value
     
     
@@ -137,17 +157,9 @@ class QuadNode(abc.ABC):
         else:
             print(f"{self.depth}\t{self.x_min:.5f}\t{self.x_max:.5f}\t" 
                   f"{self.y_min:.5f}\t{self.y_max:.5f}\t{self.get_node_value():.3f}\t")
-            
-            
-    @abc.abstractmethod
-    def split_node(self):
-        """Abstract method to split this node into 4 equal child nodes.
-        
-        """
-        pass
     
     
-    def draw_node(self, ax, cmap: str = 'cividis_r', **ax_kwargs):
+    def draw_node(self, ax, cmap: str = 'cividis_r', **ax_kwargs) -> None:
         """Draw node
 
         Plot this node on a matplotlib axis.

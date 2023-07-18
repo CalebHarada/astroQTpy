@@ -1,3 +1,5 @@
+import numpy as np
+
 from .base import QuadNode
 
 class NbodyNode(QuadNode):
@@ -19,14 +21,7 @@ class NbodyNode(QuadNode):
         Create the N-body quadtree node for astroQTpy.
         """
         super().__init__(x_min, x_max, y_min, y_max, depth)
-        
-        
-    def generate_node_value(self):
-        """_summary_
-
-        _extended_summary_
-        """
-        pass
+    
     
     def split_node(self):
         """_summary_
