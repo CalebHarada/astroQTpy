@@ -1,14 +1,13 @@
 import pytest
-from astroqtpy.quadnodes import NbodyNode
-from astroqtpy.base import QuadPoint
-import matplotlib.pyplot as plt
+from astroqtpy.quadnode import QuadNode
+from astroqtpy.quadpoint import QuadPoint
 
 def test_nbody_node() -> None:
-    """Test the Nbody QuadNode class
+    """Test the QuadNode class
     
     """
     # test instantiation of Nbody Node
-    my_node = NbodyNode(0, 1, 0, 1)
+    my_node = QuadNode(0, 1, 0, 1)
     
     # test node splitting
     assert my_node._is_split() == False
@@ -20,8 +19,8 @@ def test_nbody_node() -> None:
     my_node.node_points.append(QuadPoint(0.25, 0.75, 15))
     my_node.node_points.append(QuadPoint(0.1, 0.6, 16))
     
-    my_node.generate_node_value()  # should be 14.333334
-    assert my_node._get_node_value() == pytest.approx(14.333334)
+    my_node._generate_node_value()  # should be 14.333334
+    assert my_node.get_node_value() == pytest.approx(14.333334)
     
     
 if __name__ == "__main__":
