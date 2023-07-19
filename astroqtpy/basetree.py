@@ -165,7 +165,7 @@ class BaseTree(abc.ABC):
         sys.stdout = f
         
         print("# x \t y \t value")
-        self.root.print_node_points
+        self.root.print_node_points()
         sys.stdout = stdout_
         
         f.close()
@@ -248,7 +248,7 @@ class BaseTree(abc.ABC):
             self._compare_nodes(node.child_nw, node.child_sw, True)
             self._compare_nodes(node.child_ne, node.child_se, True)
         elif node.depth < self.min_depth:
-            node.split_node(self.N_points)
+            node.split_node()
             if self.verbose: self._save_checkpoint()
             
         if node._is_split():
@@ -261,7 +261,7 @@ class BaseTree(abc.ABC):
                 self.evaluate_multiple_points(node, self.N_points)
             else:
                 while len(node.node_points) < self.N_points:
-                    self.evaluate_point(node, seed=np.random.randint(1, 1e8))
+                    self.evaluate_point(node, rng_seed=np.random.randint(1, 1e8))
                     
                     
     def _draw_nodes(self, node: QuadNode, ax):

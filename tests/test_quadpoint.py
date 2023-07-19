@@ -1,4 +1,3 @@
-import pytest
 from astroqtpy.quadpoint import QuadPoint
 
 def test_quad_point() -> None:
