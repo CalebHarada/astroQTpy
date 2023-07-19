@@ -24,15 +24,16 @@ class QuadNode():
 
         Create a quadtree node for astroQTpy.
         """        
+        # from args
         self.x_min = x_min
         self.x_max = x_max
         self.y_min = y_min
         self.y_max = y_max
         self.depth = depth
         
+        # define attributes
         self.node_value = -np.inf
         self.node_points = []  # to store QuadPoint objects
-        
         self.child_nw = None
         self.child_ne = None
         self.child_sw = None
@@ -114,22 +115,22 @@ class QuadNode():
         return self.child_nw is not None
     
     
-    def print_points(self):
+    def print_node_points(self):
         """Convenience function to print out each point in this node.
         
         """
         if self._is_split():
-            self.child_nw.print_points()
-            self.child_ne.print_points()
-            self.child_sw.print_points()
-            self.child_se.print_points()
+            self.child_nw.print_node_points()
+            self.child_ne.print_node_points()
+            self.child_sw.print_node_points()
+            self.child_se.print_node_points()
             
         else:
             print(f"# Depth = {self.depth}, x = {self.x_min:.5f} - {self.x_max:.5f}, " 
                   f"y = {self.y_min:.5f} - {self.y_max:.5f}")
             
             for point in self.node_points:
-                print(f"{point.x:.5f}\t{point.y:.5f}\t{point.stable}\t")
+                print(f"{point.x:.5f}\t{point.y:.5f}\t{point.value}\t")
           
           
     def print_node_value(self):

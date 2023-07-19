@@ -1,3 +1,4 @@
+import sys
 import abc
 
 import numpy as np
@@ -23,12 +24,18 @@ class BaseTree(abc.ABC):
         
     """
     def __init__(self,
-        split_threshold : float,
-        N_points : int = 20,
-        min_depth : int = 3,
-        max_depth : int = 6,
-        N_proc : int = 4,
+        x_min: float,
+        x_max: float,
+        y_min: float,
+        y_max: float,
+        split_threshold: float,
+        N_points: int = 20,
+        min_depth: int = 3,
+        max_depth: int = 6,
+        N_proc: int = 4,
         verbose: bool = True,
+        filename_points: str = 'points.txt',
+        filename_nodes: str = 'nodes.txt',
         
         ) -> None:
         """__init__
@@ -38,14 +45,19 @@ class BaseTree(abc.ABC):
         
         super().__init__()
         
+        # from args
         self.split_threshold = split_threshold
         self.N_points = N_points
         self.min_depth = min_depth
         self.max_depth = max_depth
         self.N_proc = N_proc
         self.verbose = verbose
+        self.filename_points = filename_points
+        self.filename_nodes = filename_nodes
         
+        # define attributes
         self.node_count = 1
+        self.root = QuadNode(x_min, x_max, y_min, y_max, 1)
         
         
     
@@ -128,7 +140,7 @@ class BaseTree(abc.ABC):
                 
                 
     @abc.abstractmethod
-    def evaluate_one_point(self, node: QuadNode, rng_seed: int = 123456, iter: int = -1) -> None:
+    def evaluate_one_point(self, node: QuadNode, rng_seed: int = 123456) -> None:
         """Abstract method to calculate the value of one point within a given node.
         
         """
@@ -141,7 +153,137 @@ class BaseTree(abc.ABC):
         
         """
         self.node_count = self.node_count + 3
-        self.print_all_nodes()
         self.print_all_points()
+        self.print_all_nodes()
         print(f"Progress saved. (nodes = {self.node_count})")
+        
     
+    def print_all_points(self):
+        """Print all current quadtree points to a file ('filename_points').
+        
+        """
+        stdout_ = sys.stdout
+        f = open(self.filename_points, 'w')
+        sys.stdout = f
+        
+        print("# x \t y \t value")
+        self.root.print_node_points
+        sys.stdout = stdout_
+        
+        f.close()
+        
+    
+    def print_all_nodes(self):
+        """Print all current quadtree nodes to a file ('filename_nodes').
+        
+        """
+        stdout_ = sys.stdout
+        f = open(self.filename_nodes, 'w')
+        sys.stdout = f
+        
+        print("# Depth \t x_min \t x_max \t y_min \t y_max \t node value")
+        self.root.print_node_value()
+        sys.stdout = stdout_
+        
+        f.close()
+    
+    
+    def load_points(self):
+        """Load all points from a previously saved run.
+        
+        """
+        with open(self.filename_points, 'r') as f:
+            for line in f:
+                if line[0] == "#":
+                    continue
+                line_spl = line.split('\t')
+                point = QuadPoint(float(line_spl[0]), float(line_spl[1]), float(line_spl[2]))
+                self.root.node_points.append(point)
+        
+        self.squeeze_node(self.root)
+        
+    
+    def squeeze_node(self, node: QuadNode):
+        """Distribute points to child nodes.
+        
+        """
+        if len(node.node_points) > self.N_points and node.depth < self.max_depth:
+            node.split_node()
+            self.node_count = self.node_count + 3
+        
+        if node._is_split():
+            self.squeeze_node(node.child_nw)
+            self.squeeze_node(node.child_ne)
+            self.squeeze_node(node.child_sw)
+            self.squeeze_node(node.child_se)
+            
+    
+    def run_quadtree(self):
+        """Run the quadtree forward.
+        
+        """
+        # attempt to load previous results
+        try:
+            print("Attempting to load previous results...")
+            self.load_points()
+            print(f"   {self.node_count} nodes found, starting from previous checkpoint...")
+        except FileNotFoundError:
+            print("   No previous results found, starting new...")
+
+        # must execute at least minimum depth nodes
+        for _ in range(self.min_depth):
+            self._forward(self.root)
+
+        # save
+        self._save_checkpoint()
+        
+        print("DONE! :)")
+        
+        
+    def _forward(self, node: QuadNode):
+        """Advance quadtree by comparing child nodes and expanding resolution where necessary.
+        
+        """
+        if node._is_split():
+            self._compare_nodes(node.child_nw, node.child_ne, False)
+            self._compare_nodes(node.child_sw, node.child_se, False)
+            self._compare_nodes(node.child_nw, node.child_sw, True)
+            self._compare_nodes(node.child_ne, node.child_se, True)
+        elif node.depth < self.min_depth:
+            node.split_node(self.N_points)
+            if self.verbose: self._save_checkpoint()
+            
+        if node._is_split():
+            self._forward(node.child_nw)
+            self._forward(node.child_ne)
+            self._forward(node.child_sw)
+            self._forward(node.child_se)
+        elif len(node.node_points) < self.N_points:
+            if self.N_proc > 1:
+                self.evaluate_multiple_points(node, self.N_points)
+            else:
+                while len(node.node_points) < self.N_points:
+                    self.evaluate_one_point(node, seed=np.random.randint(1, 1e8))
+                    
+                    
+    def _draw_nodes(self, node: QuadNode, ax):
+        """Draw nodes and children.
+        
+        """
+        
+        if node._is_split():
+            self._draw_nodes(node.child_nw, ax)
+            self._draw_nodes(node.child_ne, ax)
+            self._draw_nodes(node.child_sw, ax)
+            self._draw_nodes(node.child_se, ax)
+            
+        node.draw_node(ax)
+        
+    
+    def draw_tree(self, ax):
+        """Draw the entire quadtree.
+        
+        Args:
+            ax (:obj:`matplotlib.pyplot.Axes`): Axis for plotting.
+        """
+        self._draw_nodes(self.root, ax)
