@@ -1,4 +1,4 @@
-from quadnodes import NbodyNode
+from .basetree import BaseTree
 
 
 
