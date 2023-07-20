@@ -2,13 +2,18 @@ from dataclasses import dataclass
 
 @dataclass
 class QuadPoint():
-    """Quadtree point
+    """Quadtree point.
 
-    A data class to store a value at coordinates (x, y).
+    A dataclass for storing a value at coordinates (x, y).
+    
+    Args:
+        _x (float): x position.
+        _y (float): y position.
+        _value (float, optional): Point value. Defaults to -1.
     """
-    _x : float
-    _y : float
-    _value : float = -1
+    _x: float
+    _y: float
+    _value: float = -1
     
     @property
     def x(self) -> float:
@@ -30,5 +35,3 @@ class QuadPoint():
     @value.setter
     def value(self, val: float) -> None:
         self._value = val
-        
-
