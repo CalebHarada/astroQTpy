@@ -1,4 +1,5 @@
 import pytest
+
 from astroqtpy.quadnode import QuadNode
 from astroqtpy.quadpoint import QuadPoint
 

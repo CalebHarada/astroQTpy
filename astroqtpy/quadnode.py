@@ -166,7 +166,8 @@ class QuadNode():
         x_mid = 0.5 * (x1 + x2)
         y_mid = 0.5 * (y1 + y2)
         
-        cm = mpl.cm.get_cmap(cmap)
+        cm = mpl.colormaps[cmap]
+        
         
         if not self._is_split():
             ax.plot([x1, x2, x2, x1, x1], [y2, y2, y1, y1, y2], c="k", lw=1, **ax_kwargs)

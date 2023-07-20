@@ -2,7 +2,7 @@ import sys
 import abc
 
 import numpy as np
-from rebound.interruptible_pool import InterruptiblePool
+from emcee.interruptible_pool import InterruptiblePool
 
 from .quadnode import QuadNode
 from .quadpoint import QuadPoint
@@ -37,7 +37,7 @@ class BaseTree(abc.ABC):
         filename_points: str = 'points.txt',
         filename_nodes: str = 'nodes.txt'
         ) -> None:
-        """__init__
+        """Initialization
 
         Create the base quadtree class for astroQTpy.
         """
@@ -132,6 +132,7 @@ class BaseTree(abc.ABC):
         map_iters = [(node, np.random.randint(1, 1e8)) for _ in range(N_empty)]
         
         with InterruptiblePool(processes=self.N_proc) as pool:
+            #points = pool.starmap(self.evaluate_point, map_iters)
             points = pool.starmap(self.evaluate_point, map_iters)
             for point in points:
                 node.node_points.append(point)

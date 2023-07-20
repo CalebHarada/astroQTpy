@@ -39,7 +39,7 @@ class RandomQuadTree(BaseTree):
             filename_points: str = 'points.txt',
             filename_nodes: str = 'nodes.txt'
             ) -> None:
-        """__init__
+        """Initialization
         
         Create a random quadtree.
         """
