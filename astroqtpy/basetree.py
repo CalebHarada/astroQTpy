@@ -2,6 +2,7 @@ import sys
 import abc
 
 import numpy as np
+import matplotlib as mpl
 from rebound.interruptible_pool import InterruptiblePool  # import throws `pkg_resources.declare_namespace` warning
 
 from .quadnode import QuadNode
@@ -56,7 +57,8 @@ class BaseTree(abc.ABC):
         # define attributes
         self.node_count = 1
         self.root = QuadNode(x_min, x_max, y_min, y_max, 1)
-        
+        self.min_node_value = np.inf
+        self.max_node_value = -np.inf
         
     
     def _compare_nodes(self, northwest: QuadNode, southeast: QuadNode, dir_northsouth: bool = False):
@@ -274,24 +276,53 @@ class BaseTree(abc.ABC):
                     node.node_points.append(point)
                     
                     
-    def _draw_nodes(self, node: QuadNode, ax):
+    def _get_min_max_nodes(self, node: QuadNode):
+        
+        if node._is_split():
+            self._get_min_max_nodes(node.child_nw)
+            self._get_min_max_nodes(node.child_ne)
+            self._get_min_max_nodes(node.child_sw)
+            self._get_min_max_nodes(node.child_se)
+        
+        if node.get_node_value() > self.max_node_value:
+            self.max_node_value = node.get_node_value()
+            
+        if node.get_node_value() < self.min_node_value and node.get_node_value() != -np.inf:
+            self.min_node_value = node.get_node_value()
+                                
+    
+    def _draw_nodes(self, ax, node: QuadNode, mappable):
         """Draw nodes and children.
         
         """
         
         if node._is_split():
-            self._draw_nodes(node.child_nw, ax)
-            self._draw_nodes(node.child_ne, ax)
-            self._draw_nodes(node.child_sw, ax)
-            self._draw_nodes(node.child_se, ax)
+            self._draw_nodes(ax, node.child_nw, mappable)
+            self._draw_nodes(ax, node.child_ne, mappable)
+            self._draw_nodes(ax, node.child_sw, mappable)
+            self._draw_nodes(ax, node.child_se, mappable)
             
-        node.draw_node(ax)
+        node.draw_node(ax, mappable)
         
     
-    def draw_tree(self, ax):
+    def draw_tree(self, ax, cmap: str = 'RdYlGn_r', vmin: float = None, vmax: float = None):
         """Draw the entire quadtree.
         
         Args:
             ax (:obj:`matplotlib.pyplot.Axes`): Axis for plotting.
         """
-        self._draw_nodes(self.root, ax)
+        
+        if vmin is None:
+            self._get_min_max_nodes(self.root)
+            vmin = 0.8 * self.min_node_value
+        if vmax is None:
+            self._get_min_max_nodes(self.root)
+            vmax = 1.2 * self.max_node_value
+        
+        mappable = mpl.cm.ScalarMappable(
+            mpl.colors.Normalize(vmin, vmax),
+            cmap='RdYlGn_r'
+            )
+        
+        self._draw_nodes(ax, self.root, mappable)
+        mpl.pyplot.colorbar(mappable, ax=ax)

@@ -37,7 +37,7 @@ def test_nbodyquadtree() -> None:
     
     # make figure
     fig, ax = plt.subplots()
-    test_tree.draw_tree(ax)
+    test_tree.draw_tree(ax, vmax=4)
     fig.savefig('./tests/end-to-end-tests/test_outputs/nbodytree_plot.png')
     
     

@@ -148,7 +148,7 @@ class QuadNode():
                   f"{self.y_min:.5f}\t{self.y_max:.5f}\t{self.get_node_value():.3f}\t")
     
     
-    def draw_node(self, ax, show_values: bool = False, cmap: str = 'cividis_r', **ax_kwargs) -> None:
+    def draw_node(self, ax, mappable, show_values: bool = False, cmap: str = 'cividis_r', **ax_kwargs) -> None:
         """Draw node
 
         Plot this node on a matplotlib axis.
@@ -166,11 +166,9 @@ class QuadNode():
         x_mid = 0.5 * (x1 + x2)
         y_mid = 0.5 * (y1 + y2)
         
-        cm = mpl.colormaps[cmap]
-        
         if not self._is_split():
             ax.plot([x1, x2, x2, x1, x1], [y2, y2, y1, y1, y2], c="k", lw=1, **ax_kwargs)
-            ax.fill_between([x1,x2], [y1,y1], [y2,y2], color=cm(self.get_node_value()), alpha=0.8)
+            ax.fill_between([x1,x2], [y1,y1], [y2,y2], color=mappable.to_rgba(self.get_node_value()))
             if show_values:
                 ax.text(x_mid, y_mid, round(self.get_node_value(), 2),
                         horizontalalignment="center", verticalalignment="center", c="k", size=10)
