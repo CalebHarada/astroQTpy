@@ -2,7 +2,7 @@ import sys
 import abc
 
 import numpy as np
-from emcee.interruptible_pool import InterruptiblePool
+from rebound.interruptible_pool import InterruptiblePool  # import throws `pkg_resources.declare_namespace` warning
 
 from .quadnode import QuadNode
 from .quadpoint import QuadPoint
@@ -28,7 +28,7 @@ class BaseTree(abc.ABC):
         x_max: float,
         y_min: float,
         y_max: float,
-        split_threshold: float,
+        split_threshold: float = 0.2,
         N_points: int = 20,
         min_depth: int = 3,
         max_depth: int = 6,
@@ -121,7 +121,8 @@ class BaseTree(abc.ABC):
 
         else:
             while len(node.node_points) < N_points:
-                self.evaluate_point(node, rng_seed=np.random.randint(1, 1e8))
+                point = self.evaluate_point(node, rng_seed=np.random.randint(1, 1e8))
+                node.node_points.append(point)
      
      
     def evaluate_multiple_points(self, node: QuadNode, N_points: int):
@@ -132,16 +133,23 @@ class BaseTree(abc.ABC):
         map_iters = [(node, np.random.randint(1, 1e8)) for _ in range(N_empty)]
         
         with InterruptiblePool(processes=self.N_proc) as pool:
-            #points = pool.starmap(self.evaluate_point, map_iters)
             points = pool.starmap(self.evaluate_point, map_iters)
             for point in points:
                 node.node_points.append(point)
                 
                 
     @abc.abstractmethod
-    def evaluate_point(self, node: QuadNode, rng_seed: int = 123456):
-        """Abstract method to calculate the value of one point within a given node.
-        
+    def evaluate_point(self, node: QuadNode, rng_seed: int = 123456) -> QuadPoint:
+        """Evaluate point
+
+        Abstract method to calculate the value of one point within a given node.
+
+        Args:
+            node (QuadNode): _description_
+            rng_seed (int, optional): _description_. Defaults to 123456.
+
+        Returns:
+            QuadPoint: _description_
         """
         pass
     
@@ -262,7 +270,8 @@ class BaseTree(abc.ABC):
                 self.evaluate_multiple_points(node, self.N_points)
             else:
                 while len(node.node_points) < self.N_points:
-                    self.evaluate_point(node, rng_seed=np.random.randint(1, 1e8))
+                    point = self.evaluate_point(node, rng_seed=np.random.randint(1, 1e8))
+                    node.node_points.append(point)
                     
                     
     def _draw_nodes(self, node: QuadNode, ax):
