@@ -9,7 +9,7 @@ def test_randomquadtree() -> None:
     """
     
     test_tree = RandomQuadTree(0, 1, 0, 1,
-                               N_proc=4,
+                               N_proc=1,
                                filename_points='./tests/end-to-end-tests/test_outputs/randomtree_points.txt',
                                filename_nodes='./tests/end-to-end-tests/test_outputs/randomtree_nodes.txt'
                                )
