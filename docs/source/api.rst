@@ -6,5 +6,5 @@ Detailed API Documentation
 .. toctree::
    :titlesonly:
    
-   quadnodes
-   base
+   quadnode
+   basetree
