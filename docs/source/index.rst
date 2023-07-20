@@ -10,6 +10,9 @@ Welcome to astroQTpy's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+   quickstart
+   installation
+   tutorials
    api
 
 
