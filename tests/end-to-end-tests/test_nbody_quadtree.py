@@ -8,9 +8,7 @@ def test_nbodyquadtree() -> None:
     """Test N-body quad tree class.
     
     """
-    
-    # TO DO: move this to a tutorial, and make this test simpler.
-    
+        
     # define particles
     particles = [
         dict(m=1.0, hash='star'),
@@ -31,7 +29,8 @@ def test_nbodyquadtree() -> None:
                               split_threshold=0.5,
                               integrator='whfast',
                               N_points=12,
-                              max_depth=7,
+                              max_depth=6,
+                              duration=50,
                               filename_points='./tests/end-to-end-tests/test_outputs/nbodytree_points.txt',
                               filename_nodes='./tests/end-to-end-tests/test_outputs/nbodytree_nodes.txt'
                               )

@@ -148,7 +148,7 @@ class QuadNode():
                   f"{self.y_min:.5f}\t{self.y_max:.5f}\t{self.get_node_value():.3f}\t")
     
     
-    def draw_node(self, ax, mappable, show_points, show_values, **ax_kwargs) -> None:
+    def draw_node(self, ax, mappable, show_lines, show_points, show_values) -> None:
         """Draw node
 
         Plot this node on a matplotlib axis.
@@ -156,25 +156,30 @@ class QuadNode():
         Args:
             ax (:obj:`matplotlib.pyplot.Axes`): Axis for plotting.
             cmap (str, optional): Matplotlib colormap for nodes. Defaults to 'cividis_r'.
-            **ax_kwargs: Keyword arguments passed to :obj:`matplotlib.pyplot.Axes` object.
         """
         
         # TO DO: make plotting more customizable
         
         x1, x2 = self.x_min, self.x_max
         y1, y2 = self.y_min, self.y_max
-        x_mid = 0.5 * (x1 + x2)
-        y_mid = 0.5 * (y1 + y2)
         
         if not self._is_split():
-            ax.plot([x1, x2, x2, x1, x1], [y2, y2, y1, y1, y2], c="k", lw=1, alpha=0.5, **ax_kwargs)
+            
             ax.fill_between([x1,x2], [y1,y1], [y2,y2], color=mappable.to_rgba(self.get_node_value()))
+            
+            if show_lines:
+                ax.plot([x1, x2, x2, x1, x1], [y2, y2, y1, y1, y2],
+                        c="k", lw=1, alpha=0.5
+                        )
             
             if show_points:
                 ax.scatter(*zip(*[(point.x, point.y) for point in self.node_points]),
-                           c='k', s=1, marker='.', alpha=0.5, rasterized=True
+                           c='k', s=1, marker='.', alpha=0.8, rasterized=True
                            )
                 
             if show_values:
+                x_mid = 0.5 * (x1 + x2)
+                y_mid = 0.5 * (y1 + y2)
                 ax.text(x_mid, y_mid, round(self.get_node_value(), 2),
-                        horizontalalignment="center", verticalalignment="center", c="k", size=10)
+                        horizontalalignment="center", verticalalignment="center", c="k", size=10
+                        )

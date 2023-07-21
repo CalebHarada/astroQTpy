@@ -38,7 +38,7 @@ class RandomQuadTree(BaseTree):
             min_depth: int = 3,
             max_depth: int = 6,
             N_proc: int = 4,
-            verbose: bool = True,
+            verbose: bool = False,
             filename_points: str = 'points.txt',
             filename_nodes: str = 'nodes.txt'
             ) -> None:
@@ -103,19 +103,13 @@ class NbodyQuadTree(BaseTree):
             x_max: float,
             y_min: float,
             y_max: float,
-            particles: list[dict],
-            x_var: dict,
-            y_var: dict,
-            duration: float = 5e2,
-            integrator: str = 'ias15',
-            timestep: float = 5.,
-            exit_max_distance: float = 20.,
+            simulation_fnc: callable,
             split_threshold: float = 0.2,
             N_points: int = 20,
             min_depth: int = 3,
             max_depth: int = 6,
             N_proc: int = 4,
-            verbose: bool = True,
+            verbose: bool = False,
             filename_points: str = 'points.txt',
             filename_nodes: str = 'nodes.txt'
             ) -> None:
@@ -129,45 +123,9 @@ class NbodyQuadTree(BaseTree):
             filename_points, filename_nodes
             )
         
-        self.particles = particles
-        self.x_var = x_var
-        self.y_var = y_var
-        self.sim_duration = duration
-        self.integrator = integrator
-        self.timestep = timestep
-        self.exit_max_distance = exit_max_distance
+        self.simulation_fnc = simulation_fnc
         
-        
-    def setup_simulation(self):
-        
-        sim = rebound.Simulation()
-        
-        sim.integrator = self.integrator
-        if self.integrator == 'whfast':
-            sim.ri_whfast.safe_mode = 0
             
-        sim.dt = self.timestep
-        
-        for particle in self.particles:
-            sim.add(**particle)
-            
-        sim.move_to_com()
-        sim.init_megno()
-        sim.exit_max_distance = self.exit_max_distance
-        
-        return sim
-        
-        
-    def run_simulation(self, simulation):
-        
-        try:
-            simulation.integrate(self.sim_duration * 2*np.pi)
-            megno = simulation.calculate_megno()
-            return megno
-        except rebound.Escape:
-            return 10. # At least one particle got ejected, returning large MEGNO.
-            
-    
     def evaluate_point(self, node: QuadNode, rng_seed: int = 123456) -> QuadPoint:
         """_summary_
 
@@ -185,12 +143,9 @@ class NbodyQuadTree(BaseTree):
         _x = rng.uniform(node.x_min, node.x_max)
         _y = rng.uniform(node.y_min, node.y_max)
         
-        sim = self.setup_simulation()
-        setattr(sim.particles[self.x_var['particle']], self.x_var['variable'], _x)
-        setattr(sim.particles[self.y_var['particle']], self.y_var['variable'], _y)
-        result = self.run_simulation(sim)
+        sim = self.simulation_fnc((_x, _y))
         
-        point = QuadPoint(_x, _y, result)
+        point = QuadPoint(_x, _y, sim)
     
         return point
 

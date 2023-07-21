@@ -34,7 +34,7 @@ class BaseTree(abc.ABC):
         min_depth: int = 3,
         max_depth: int = 6,
         N_proc: int = 4,
-        verbose: bool = True,
+        verbose: bool = False,
         filename_points: str = 'points.txt',
         filename_nodes: str = 'nodes.txt'
         ) -> None:
@@ -99,12 +99,12 @@ class BaseTree(abc.ABC):
                 if northwest.depth >= southeast.depth and southeast.depth < self.max_depth:
                     southeast.split_node()
                     self.fill(southeast, self.N_points)
-                    if self.verbose: self._save_checkpoint()
+                    self._save_checkpoint()
                     
                 if southeast.depth >= northwest.depth and northwest.depth < self.max_depth:
                     northwest.split_node()
                     self.fill(northwest, self.N_points)
-                    if self.verbose: self._save_checkpoint()
+                    self._save_checkpoint()
                     
                     
     def fill(self, node: QuadNode, N_points: int):
@@ -164,7 +164,8 @@ class BaseTree(abc.ABC):
         self.node_count = self.node_count + 3
         self.print_all_points()
         self.print_all_nodes()
-        print(f"Progress saved. (nodes = {self.node_count})")
+        if self.verbose:
+            print(f"Progress saved. (nodes = {self.node_count})")
         
     
     def print_all_points(self):
@@ -260,7 +261,7 @@ class BaseTree(abc.ABC):
             self._compare_nodes(node.child_ne, node.child_se, True)
         elif node.depth < self.min_depth:
             node.split_node()
-            if self.verbose: self._save_checkpoint()
+            self._save_checkpoint()
             
         if node._is_split():
             self._forward(node.child_nw)
@@ -294,6 +295,7 @@ class BaseTree(abc.ABC):
     def _draw_nodes(self, ax,
                     node: QuadNode,
                     mappable,
+                    show_lines,
                     show_points,
                     show_values
                     ):
@@ -302,22 +304,22 @@ class BaseTree(abc.ABC):
         """
         
         if node._is_split():
-            self._draw_nodes(ax, node.child_nw, mappable, show_points, show_values)
-            self._draw_nodes(ax, node.child_ne, mappable, show_points, show_values)
-            self._draw_nodes(ax, node.child_sw, mappable, show_points, show_values)
-            self._draw_nodes(ax, node.child_se, mappable, show_points, show_values)
+            self._draw_nodes(ax, node.child_nw, mappable, show_lines, show_points, show_values)
+            self._draw_nodes(ax, node.child_ne, mappable, show_lines, show_points, show_values)
+            self._draw_nodes(ax, node.child_sw, mappable, show_lines, show_points, show_values)
+            self._draw_nodes(ax, node.child_se, mappable, show_lines, show_points, show_values)
             
-        node.draw_node(ax, mappable, show_points, show_values)
+        node.draw_node(ax, mappable, show_lines, show_points, show_values)
         
     
     def draw_tree(self, ax,
                   cmap: str = 'RdYlGn_r',
                   vmin: float = None,
                   vmax: float = None,
+                  show_lines: float = True,
                   show_points: bool = False,
-                  show_values: bool = False,
-                  **cb_kwargs
-                  ):
+                  show_values: bool = False
+                  ) -> mpl.cm.ScalarMappable:
         """Draw the entire quadtree.
         
         Args:
@@ -338,5 +340,6 @@ class BaseTree(abc.ABC):
             cmap=cmap
             )
         
-        self._draw_nodes(ax, self.root, mappable, show_points, show_values)
-        mpl.pyplot.colorbar(mappable, ax=ax, **cb_kwargs)
+        self._draw_nodes(ax, self.root, mappable, show_lines, show_points, show_values)
+        
+        return mappable
