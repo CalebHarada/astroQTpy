@@ -30,6 +30,7 @@ def test_nbodyquadtree() -> None:
     test_tree = NbodyQuadTree(x_min, x_max, y_min, y_max, particles, x_var, y_var,
                               split_threshold=0.5,
                               integrator='whfast',
+                              N_points=12,
                               max_depth=7,
                               filename_points='./tests/end-to-end-tests/test_outputs/nbodytree_points.txt',
                               filename_nodes='./tests/end-to-end-tests/test_outputs/nbodytree_nodes.txt'
@@ -39,7 +40,7 @@ def test_nbodyquadtree() -> None:
     
     # make figure
     fig, ax = plt.subplots()
-    test_tree.draw_tree(ax, vmax=10, show_points=False, **dict(label='Average MEGNO'))
+    test_tree.draw_tree(ax, vmin=1.9, vmax=4, show_points=False, **dict(label='Average MEGNO'))
     ax.set_xlabel('$a$')
     ax.set_ylabel('$e$')
     ax.set_xlim(x_min, x_max)

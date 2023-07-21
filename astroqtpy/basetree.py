@@ -324,6 +324,8 @@ class BaseTree(abc.ABC):
             ax (:obj:`matplotlib.pyplot.Axes`): Axis for plotting.
         """
         
+        # TO DO: add option to show grid lines
+        
         if vmin is None:
             self._get_min_max_nodes(self.root)
             vmin = 0.8 * self.min_node_value

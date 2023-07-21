@@ -108,7 +108,7 @@ class NbodyQuadTree(BaseTree):
             y_var: dict,
             duration: float = 5e2,
             integrator: str = 'ias15',
-            timestep: float = 1.,
+            timestep: float = 5.,
             exit_max_distance: float = 20.,
             split_threshold: float = 0.2,
             N_points: int = 20,
