@@ -108,6 +108,7 @@ class NbodyQuadTree(BaseTree):
             y_var: dict,
             duration: float = 5e2,
             integrator: str = 'ias15',
+            timestep: float = 1.,
             exit_max_distance: float = 20.,
             split_threshold: float = 0.2,
             N_points: int = 20,
@@ -133,6 +134,7 @@ class NbodyQuadTree(BaseTree):
         self.y_var = y_var
         self.sim_duration = duration
         self.integrator = integrator
+        self.timestep = timestep
         self.exit_max_distance = exit_max_distance
         
         
@@ -141,6 +143,11 @@ class NbodyQuadTree(BaseTree):
         sim = rebound.Simulation()
         
         sim.integrator = self.integrator
+        if self.integrator == 'whfast':
+            sim.ri_whfast.safe_mode = 0
+            
+        sim.dt = self.timestep
+        
         for particle in self.particles:
             sim.add(**particle)
             

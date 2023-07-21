@@ -17,8 +17,8 @@ def test_randomquadtree() -> None:
     
     # make figure
     fig, ax = plt.subplots()
-    test_tree.draw_tree(ax)
-    fig.savefig('./tests/end-to-end-tests/test_outputs/randomtree_plot.png')
+    test_tree.draw_tree(ax, show_points=True)
+    fig.savefig('./tests/end-to-end-tests/test_outputs/randomtree_plot.png', dpi=200)
     
     
     

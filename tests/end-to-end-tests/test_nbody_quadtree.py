@@ -9,6 +9,8 @@ def test_nbodyquadtree() -> None:
     
     """
     
+    # TO DO: move this to a tutorial, and make this test simpler.
+    
     # define particles
     particles = [
         dict(m=1.0, hash='star'),
@@ -26,9 +28,9 @@ def test_nbodyquadtree() -> None:
     
     # initialize NbodyQuadTree
     test_tree = NbodyQuadTree(x_min, x_max, y_min, y_max, particles, x_var, y_var,
-                              split_threshold=2.0,
-                              N_points=1,
-                              N_proc=1,
+                              split_threshold=0.5,
+                              integrator='whfast',
+                              max_depth=7,
                               filename_points='./tests/end-to-end-tests/test_outputs/nbodytree_points.txt',
                               filename_nodes='./tests/end-to-end-tests/test_outputs/nbodytree_nodes.txt'
                               )
@@ -37,11 +39,14 @@ def test_nbodyquadtree() -> None:
     
     # make figure
     fig, ax = plt.subplots()
-    test_tree.draw_tree(ax, vmax=4)
-    fig.savefig('./tests/end-to-end-tests/test_outputs/nbodytree_plot.png')
+    test_tree.draw_tree(ax, vmax=10, show_points=False, **dict(label='Average MEGNO'))
+    ax.set_xlabel('$a$')
+    ax.set_ylabel('$e$')
+    ax.set_xlim(x_min, x_max)
+    ax.set_ylim(y_min, y_max)
+    fig.savefig('./tests/end-to-end-tests/test_outputs/nbodytree_plot.png', dpi=200)
     
-    
-    
+
 if __name__ == "__main__":
     test_nbodyquadtree()
 

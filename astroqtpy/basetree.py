@@ -291,21 +291,33 @@ class BaseTree(abc.ABC):
             self.min_node_value = node.get_node_value()
                                 
     
-    def _draw_nodes(self, ax, node: QuadNode, mappable):
+    def _draw_nodes(self, ax,
+                    node: QuadNode,
+                    mappable,
+                    show_points,
+                    show_values
+                    ):
         """Draw nodes and children.
         
         """
         
         if node._is_split():
-            self._draw_nodes(ax, node.child_nw, mappable)
-            self._draw_nodes(ax, node.child_ne, mappable)
-            self._draw_nodes(ax, node.child_sw, mappable)
-            self._draw_nodes(ax, node.child_se, mappable)
+            self._draw_nodes(ax, node.child_nw, mappable, show_points, show_values)
+            self._draw_nodes(ax, node.child_ne, mappable, show_points, show_values)
+            self._draw_nodes(ax, node.child_sw, mappable, show_points, show_values)
+            self._draw_nodes(ax, node.child_se, mappable, show_points, show_values)
             
-        node.draw_node(ax, mappable)
+        node.draw_node(ax, mappable, show_points, show_values)
         
     
-    def draw_tree(self, ax, cmap: str = 'RdYlGn_r', vmin: float = None, vmax: float = None):
+    def draw_tree(self, ax,
+                  cmap: str = 'RdYlGn_r',
+                  vmin: float = None,
+                  vmax: float = None,
+                  show_points: bool = False,
+                  show_values: bool = False,
+                  **cb_kwargs
+                  ):
         """Draw the entire quadtree.
         
         Args:
@@ -321,8 +333,8 @@ class BaseTree(abc.ABC):
         
         mappable = mpl.cm.ScalarMappable(
             mpl.colors.Normalize(vmin, vmax),
-            cmap='RdYlGn_r'
+            cmap=cmap
             )
         
-        self._draw_nodes(ax, self.root, mappable)
-        mpl.pyplot.colorbar(mappable, ax=ax)
+        self._draw_nodes(ax, self.root, mappable, show_points, show_values)
+        mpl.pyplot.colorbar(mappable, ax=ax, **cb_kwargs)
