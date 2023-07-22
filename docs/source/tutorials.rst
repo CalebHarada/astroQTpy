@@ -9,3 +9,4 @@ Tutorials
    :caption: Basic Tutorials
 
    tutorials/random_quadtree_tutorial.ipynb
+   tutorials/nbody_quadtree_tutorial.ipynb
