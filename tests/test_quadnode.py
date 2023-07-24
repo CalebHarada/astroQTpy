@@ -20,8 +20,8 @@ def test_nbody_node() -> None:
     my_node.node_points.append(QuadPoint(0.25, 0.75, 15))
     my_node.node_points.append(QuadPoint(0.1, 0.6, 16))
     
-    my_node._generate_node_value()  # should be 14.333334
-    assert my_node.get_node_value() == pytest.approx(14.333334)
+    my_node._generate_node_value('mean')  # should be 14.333334
+    assert my_node.get_node_value('mean') == pytest.approx(14.333334)
     
     
 if __name__ == "__main__":

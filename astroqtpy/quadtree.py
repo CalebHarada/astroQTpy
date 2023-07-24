@@ -1,5 +1,4 @@
 import numpy as np
-import rebound  # import throws `pkg_resources.declare_namespace` warning
 
 from astroqtpy.quadnode import QuadNode
 

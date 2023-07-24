@@ -1,10 +1,11 @@
 import numpy as np 
-import matplotlib as mpl 
+from matplotlib import axes, cm
 
 class QuadNode():
     """Quadtree node.
 
-    A class for astroQTpy quadtree nodes.
+    A class for astroQTpy quadtree nodes. Each node is defined by its given boundary limits
+    and 'depth', and may contain up to any given number of quadtree points.
     
     Args:
         x_min (float): Minimum x value of this node.
@@ -43,7 +44,8 @@ class QuadNode():
     def split_node(self) -> None:
         """Split node.
 
-        Split this node into 4 equal child nodes and distribute parent node points to children.
+        Split this node into 4 equal 'child' nodes. Distribute any points
+        contained within this node to its children.
         """
         x_center = 0.5 * (self.x_min + self.x_max)
         y_center = 0.5 * (self.y_min + self.y_max)
@@ -80,15 +82,15 @@ class QuadNode():
         self.node_points.clear()
     
     
-    def _generate_node_value(self, statistic: str = 'mean') -> None:
+    def _generate_node_value(self, statistic: str) -> None:
         """Generate node value.
         
+        Calculate an aggragate value of all points contained within this node.
+        
         Args:
-            statistic (str, optional): Statistic to compute for this node. Defaults to 'mean'.
+            statistic (str): Statistic to compute for this node. Choose from ['mean', 'std', or 'median'].
         """
-        
-        # TO DO: allow multiple options for statistic (e.g., std, median, mean...)
-        
+                
         if len(self.node_points) == 0:
             return
         
@@ -96,28 +98,43 @@ class QuadNode():
         
         if statistic == 'mean':
             self.node_value = np.mean(node_point_values)
+        elif statistic == 'std':
+            self.node_value = np.std(node_point_values)
+        elif statistic == 'median':
+            self.node_value = np.median(node_point_values)
+        else:
+            raise ValueError(" Node statistic must be either 'mean', 'std', or 'median'. ")
     
     
-    def get_node_value(self):
-        """Convenience function to grab node value.
+    def get_node_value(self, statistic: str) -> float:
+        """Get node value.
         
+        Convenience function to grab this node's value.
+        
+        Args:
+            statistic (str): Statistic to pass to '_generate_node_value'. Choose from ['mean', 'std', or 'median'].
+
+        Returns:
+            float: Node value.
         """
         if self.node_value == -np.inf:
-            self._generate_node_value()
+            self._generate_node_value(statistic)
             
         return self.node_value
     
     
-    def _is_split(self):
-        """Convenience function to check if this node has split.
+    def _is_split(self) -> None:
+        """Is split.
         
+        Convenience function to check whether this node has been split.
         """
         return self.child_nw is not None
     
     
-    def print_node_points(self):
-        """Convenience function to print out each point in this node.
+    def print_node_points(self) -> None:
+        """Print node points.
         
+        Convenience function to print each point contained within this node to a given file.
         """
         if self._is_split():
             self.child_nw.print_node_points()
@@ -133,38 +150,43 @@ class QuadNode():
                 print(f"{point.x:.5f}\t{point.y:.5f}\t{point.value}\t")
           
           
-    def print_node_value(self):
-        """Convenience function to print the value of this node.
+    def print_node_value(self, statistic: str) -> None:
+        """Print node value.
         
+        Convenience function to print the value of this node to a given file.
+        
+        Args:
+            statistic (str): Statistic to pass to 'get_node_value'. Choose from ['mean', 'std', or 'median'].
         """
         if self._is_split():
-            self.child_nw.print_node_value()
-            self.child_ne.print_node_value()
-            self.child_sw.print_node_value()
-            self.child_se.print_node_value()
+            self.child_nw.print_node_value(statistic)
+            self.child_ne.print_node_value(statistic)
+            self.child_sw.print_node_value(statistic)
+            self.child_se.print_node_value(statistic)
             
         else:
             print(f"{self.depth}\t{self.x_min:.5f}\t{self.x_max:.5f}\t" 
-                  f"{self.y_min:.5f}\t{self.y_max:.5f}\t{self.get_node_value():.3f}\t")
+                  f"{self.y_min:.5f}\t{self.y_max:.5f}\t{self.get_node_value(statistic):.3f}\t")
     
     
-    def draw_node(self, ax, mappable, show_lines, show_points, show_values) -> None:
-        """Draw node
+    def draw_node(self, ax: axes.Axes, mappable: cm.ScalarMappable,
+                  show_lines: bool, show_points: bool, show_values: bool) -> None:
+        """Draw node.
 
         Plot this node on a matplotlib axis.
 
         Args:
-            ax (:obj:`matplotlib.pyplot.Axes`): Axis for plotting.
-            cmap (str, optional): Matplotlib colormap for nodes. Defaults to 'cividis_r'.
+            ax (:obj:`matplotlib.axes.Axes`): Axis for plotting.
+            mappable (:obj:`matplotlib.cm.ScalarMappable`): Scalar mappable for color mapping.
+            show_lines (bool): Whether to draw boundary lines between nodes.
+            show_points (bool): Whether to plot points contained within this node.
+            show_values (bool): Whether to print the value of this node on the plot.
         """
-        
-        # TO DO: make plotting more customizable
-        
+        # grab node limits for convenience        
         x1, x2 = self.x_min, self.x_max
         y1, y2 = self.y_min, self.y_max
         
         if not self._is_split():
-            
             ax.fill_between([x1,x2], [y1,y1], [y2,y2], color=mappable.to_rgba(self.get_node_value()))
             
             if show_lines:

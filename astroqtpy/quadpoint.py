@@ -1,19 +1,20 @@
 from dataclasses import dataclass
+import numpy as np
 
 @dataclass
 class QuadPoint():
     """Quadtree point.
 
-    A dataclass for storing a value at coordinates (x, y).
+    A dataclass for storing a point value at coordinates (x, y).
     
     Args:
         _x (float): x position.
         _y (float): y position.
-        _value (float, optional): Point value. Defaults to -1.
+        _value (float, optional): Point value. Defaults to -inf.
     """
     _x: float
     _y: float
-    _value: float = -1
+    _value: float = -np.inf
     
     @property
     def x(self) -> float:
