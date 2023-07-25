@@ -146,7 +146,11 @@ class NbodyQuadTree(BaseTree):
                          filename_points,
                          filename_nodes)
         
-        self.simulation_fnc = simulation_fnc
+        # check that input function is callable
+        if not callable(simulation_fnc):
+            raise TypeError('simulation_fnc must be callable.')
+        else:
+            self.simulation_fnc = simulation_fnc
         
             
     def evaluate_point(self, node: QuadNode, rng_seed: int = 123456) -> QuadPoint:

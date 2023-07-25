@@ -1,3 +1,4 @@
+import pytest
 import matplotlib.pyplot as plt
 import numpy as np
 import rebound
@@ -50,6 +51,9 @@ def test_nbodyquadtree() -> None:
                               filename_points='./tests/end-to-end-tests/test_outputs/nbodytree_points.txt',
                               filename_nodes='./tests/end-to-end-tests/test_outputs/nbodytree_nodes.txt'
                               )
+    
+    with pytest.raises(TypeError):
+        test_tree = NbodyQuadTree(x_min, x_max, y_min, y_max, 'fake_function')
     
     test_tree.run_quadtree()  # test multiprocessing option
     

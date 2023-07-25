@@ -25,14 +25,35 @@ class QuadNode():
 
         Create a quadtree node for astroQTpy.
         """        
-        # from args
-        self.x_min = x_min
-        self.x_max = x_max
-        self.y_min = y_min
-        self.y_max = y_max
-        self.depth = depth
+        # check user specified attributes
+        if x_max < x_min:
+            raise ValueError('x_max must be greater than x_min.')
+        elif x_max == x_min:
+            raise ValueError('x_max cannot equal x_min.')
+        elif not np.isfinite(x_min) or not np.isfinite(x_max):
+            raise ValueError('x limits must be finite.')
+        else:
+            self.x_min = x_min
+            self.x_max = x_max
         
-        # define attributes
+        if y_max < y_min:
+            raise ValueError('y_max must be greater than y_min.')
+        elif y_max == y_min:
+            raise ValueError('y_max cannot equal y_min.')
+        elif not np.isfinite(y_max) or not np.isfinite(y_min):
+            raise ValueError('y limits must be finite.')
+        else:
+            self.y_min = y_min
+            self.y_max = y_max
+        
+        if depth < 0:
+            raise ValueError('depth cannot be negative.')
+        elif not np.isfinite(depth):
+            raise ValueError('depth must be finite.')
+        else:
+            self.depth = depth
+        
+        # define other attributes
         self.node_value = -np.inf
         self.node_points = []  # to store QuadPoint objects
         self.child_nw = None

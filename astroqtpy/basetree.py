@@ -52,18 +52,39 @@ class BaseTree(abc.ABC):
         
         super().__init__()
         
-        # from args
-        self.split_threshold = split_threshold
-        self.node_statistic = node_statistic
-        self.N_points = N_points
-        self.min_depth = min_depth
-        self.max_depth = max_depth
-        self.N_proc = N_proc
+        # check user input attributes
+        if split_threshold <= 0:
+            raise ValueError('split_threshold must be greater than zero.')
+        elif not np.isfinite(split_threshold):
+            raise ValueError('split_threshold must be finite.')
+        else:
+            self.split_threshold = split_threshold
+            
+        if node_statistic in ['mean', 'median', 'std']:
+            self.node_statistic = node_statistic
+        else:
+            raise ValueError('node_statistic must be either "mean, "median", or "std"')
+        
+        if N_points <= 0:
+            raise ValueError('N_points must be greater than zero.')
+        else:
+            self.N_points = N_points
+            
+        if max_depth < min_depth:
+            raise ValueError('max_depth must be greater than min_depth.')
+        else:
+            self.min_depth = min_depth
+            self.max_depth = max_depth
+            
+        if N_proc <= 0:
+            raise ValueError('N_proc must be greater than zero.')
+        else:
+            self.N_proc = N_proc
+        
+        # define other attributes
         self.verbose = verbose
         self.filename_points = filename_points
         self.filename_nodes = filename_nodes
-        
-        # define attributes
         self.node_count = 1
         self.root = QuadNode(x_min, x_max, y_min, y_max, 1)
         self.min_node_value = np.inf  # for plotting limits
