@@ -353,7 +353,7 @@ class BaseTree(abc.ABC):
             self._draw_nodes(ax, node.child_sw, mappable, show_lines, show_points, show_values)
             self._draw_nodes(ax, node.child_se, mappable, show_lines, show_points, show_values)
             
-        node.draw_node(ax, mappable, show_lines, show_points, show_values)
+        node.draw_node(ax, mappable, show_lines, show_points, show_values, self.node_statistic)
         
     
     def draw_tree(self, ax: axes.Axes,

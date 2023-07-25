@@ -17,39 +17,51 @@ class RandomQuadTree(BaseTree):
         x_max (float): _description_
         y_min (float): _description_
         y_max (float): _description_
-        split_threshold (float): _description_. Defaults to 0.2.
+        split_threshold (float, optional): _description_. Defaults to 0.2.
+        node_statistic (str, optional): _description_. Defaults to 'mean'.
         N_points (int, optional): _description_. Defaults to 20.
         min_depth (int, optional): _description_. Defaults to 3.
         max_depth (int, optional): _description_. Defaults to 6.
-        N_proc (int, optional): _description_. Defaults to 4.
-        verbose (bool, optional): _description_. Defaults to True.
+        N_proc (int, optional): _description_. Defaults to 1.
+        verbose (bool, optional): _description_. Defaults to False.
         filename_points (str, optional): _description_. Defaults to 'points.txt'.
         filename_nodes (str, optional): _description_. Defaults to 'nodes.txt'.
     """
     
     def __init__(self,
-            x_min: float,
-            x_max: float,
-            y_min: float,
-            y_max: float,
-            split_threshold: float = 0.2,
-            N_points: int = 20,
-            min_depth: int = 3,
-            max_depth: int = 6,
-            N_proc: int = 4,
-            verbose: bool = False,
-            filename_points: str = 'points.txt',
-            filename_nodes: str = 'nodes.txt'
-            ) -> None:
-        """Initialization
-        
-        Create a random quadtree.
+                 x_min: float,
+                 x_max: float,
+                 y_min: float,
+                 y_max: float,
+                 split_threshold: float = 0.2,
+                 node_statistic: str = 'mean',
+                 N_points: int = 20,
+                 min_depth: int = 3,
+                 max_depth: int = 6,
+                 N_proc: int = 1,
+                 verbose: bool = False,
+                 filename_points: str = 'points.txt',
+                 filename_nodes: str = 'nodes.txt'
+                 ) -> None:
+        """_summary_
+
+        _extended_summary_
         """
-        super().__init__(
-            x_min, x_max, y_min, y_max, split_threshold,
-            N_points, min_depth, max_depth, N_proc, verbose,
-            filename_points, filename_nodes
-            )
+        
+        super().__init__(x_min,
+                         x_max,
+                         y_min,
+                         y_max,
+                         split_threshold,
+                         node_statistic,
+                         N_points,
+                         min_depth,
+                         max_depth,
+                         N_proc,
+                         verbose,
+                         filename_points,
+                         filename_nodes
+                         )
         
         
     def evaluate_point(self, node: QuadNode, rng_seed: int = 123456) -> QuadPoint:
@@ -87,40 +99,52 @@ class NbodyQuadTree(BaseTree):
         x_max (float): _description_
         y_min (float): _description_
         y_max (float): _description_
-        split_threshold (float): _description_. Defaults to 0.2.
+        simulation_fnc (callable): _description_
+        split_threshold (float, optional): _description_. Defaults to 0.2.
+        node_statistic (str, optional): _description_. Defaults to 'mean'.
         N_points (int, optional): _description_. Defaults to 20.
         min_depth (int, optional): _description_. Defaults to 3.
         max_depth (int, optional): _description_. Defaults to 6.
-        N_proc (int, optional): _description_. Defaults to 4.
-        verbose (bool, optional): _description_. Defaults to True.
+        N_proc (int, optional): _description_. Defaults to 1.
+        verbose (bool, optional): _description_. Defaults to False.
         filename_points (str, optional): _description_. Defaults to 'points.txt'.
         filename_nodes (str, optional): _description_. Defaults to 'nodes.txt'.
     """
     
     def __init__(self,
-            x_min: float,
-            x_max: float,
-            y_min: float,
-            y_max: float,
-            simulation_fnc: callable,
-            split_threshold: float = 0.2,
-            N_points: int = 20,
-            min_depth: int = 3,
-            max_depth: int = 6,
-            N_proc: int = 4,
-            verbose: bool = False,
-            filename_points: str = 'points.txt',
-            filename_nodes: str = 'nodes.txt'
-            ) -> None:
-        """Initialization
-        
+                 x_min: float,
+                 x_max: float,
+                 y_min: float,
+                 y_max: float,
+                 simulation_fnc: callable,
+                 split_threshold: float = 0.2,
+                 node_statistic: str = 'mean',
+                 N_points: int = 20,
+                 min_depth: int = 3,
+                 max_depth: int = 6,
+                 N_proc: int = 1,
+                 verbose: bool = False,
+                 filename_points: str = 'points.txt',
+                 filename_nodes: str = 'nodes.txt'
+                 ) -> None:
+        """_summary_
+
         Create an N-body simulation quadtree.
         """
-        super().__init__(
-            x_min, x_max, y_min, y_max, split_threshold,
-            N_points, min_depth, max_depth, N_proc, verbose,
-            filename_points, filename_nodes
-            )
+        
+        super().__init__(x_min,
+                         x_max,
+                         y_min,
+                         y_max,
+                         split_threshold,
+                         node_statistic,
+                         N_points,
+                         min_depth,
+                         max_depth,
+                         N_proc,
+                         verbose,
+                         filename_points,
+                         filename_nodes)
         
         self.simulation_fnc = simulation_fnc
         

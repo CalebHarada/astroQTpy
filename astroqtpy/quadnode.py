@@ -170,7 +170,8 @@ class QuadNode():
     
     
     def draw_node(self, ax: axes.Axes, mappable: cm.ScalarMappable,
-                  show_lines: bool, show_points: bool, show_values: bool) -> None:
+                  show_lines: bool, show_points: bool, show_values: bool,
+                  statistic: str) -> None:
         """Draw node.
 
         Plot this node on a matplotlib axis.
@@ -181,13 +182,14 @@ class QuadNode():
             show_lines (bool): Whether to draw boundary lines between nodes.
             show_points (bool): Whether to plot points contained within this node.
             show_values (bool): Whether to print the value of this node on the plot.
+            statistic (str): Statistic to pass to 'get_node_value'. Choose from ['mean', 'std', or 'median'].
         """
         # grab node limits for convenience        
         x1, x2 = self.x_min, self.x_max
         y1, y2 = self.y_min, self.y_max
         
         if not self._is_split():
-            ax.fill_between([x1,x2], [y1,y1], [y2,y2], color=mappable.to_rgba(self.get_node_value()))
+            ax.fill_between([x1,x2], [y1,y1], [y2,y2], color=mappable.to_rgba(self.get_node_value(statistic)))
             
             if show_lines:
                 ax.plot([x1, x2, x2, x1, x1], [y2, y2, y1, y1, y2],
@@ -202,6 +204,6 @@ class QuadNode():
             if show_values:
                 x_mid = 0.5 * (x1 + x2)
                 y_mid = 0.5 * (y1 + y2)
-                ax.text(x_mid, y_mid, round(self.get_node_value(), 2),
+                ax.text(x_mid, y_mid, round(self.get_node_value(statistic), 2),
                         horizontalalignment="center", verticalalignment="center", c="k", size=10
                         )
