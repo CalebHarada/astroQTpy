@@ -8,24 +8,24 @@ from .basetree import BaseTree
 
 
 class RandomQuadTree(BaseTree):
-    """_summary_
+    """Random quadtree.
 
-    _extended_summary_
+    A class for creating a quadtree with randomly sampled points.
 
     Args:
-        x_min (float): _description_
-        x_max (float): _description_
-        y_min (float): _description_
-        y_max (float): _description_
-        split_threshold (float, optional): _description_. Defaults to 0.2.
-        node_statistic (str, optional): _description_. Defaults to 'mean'.
-        N_points (int, optional): _description_. Defaults to 20.
-        min_depth (int, optional): _description_. Defaults to 3.
-        max_depth (int, optional): _description_. Defaults to 6.
-        N_proc (int, optional): _description_. Defaults to 1.
-        verbose (bool, optional): _description_. Defaults to False.
-        filename_points (str, optional): _description_. Defaults to 'points.txt'.
-        filename_nodes (str, optional): _description_. Defaults to 'nodes.txt'.
+        x_min (float): Minimum x value for this quadtree.
+        x_max (float): Maximum x value for this quadtree.
+        y_min (float): Minimum y value for this quadtree.
+        y_max (float): Maximum y value for this quadtree.
+        split_threshold (float, optional): Threshold discrepancy in order to split nodes. Defaults to 0.2.
+        node_statistic (str, optional): Statistic to compute node values ['mean', 'std', or 'median']. Defaults to 'mean'.
+        N_points (int, optional): Maximum number of points per node. Defaults to 20.
+        min_depth (int, optional): Minimum quadtree depth. Defaults to 3.
+        max_depth (int, optional):  Maximum quadtree depth. Defaults to 6.
+        N_proc (int, optional): Number of cores for multiprocessing. Defaults to 1.
+        verbose (bool, optional): Option to print node values in real time. Defaults to False.
+        filename_points (str, optional): Name of output file to save points. Defaults to 'points.txt'.
+        filename_nodes (str, optional): Name of output file to save nodes. Defaults to 'nodes.txt'.
     """
     
     def __init__(self,
@@ -43,9 +43,9 @@ class RandomQuadTree(BaseTree):
                  filename_points: str = 'points.txt',
                  filename_nodes: str = 'nodes.txt'
                  ) -> None:
-        """_summary_
+        """__init__
 
-        _extended_summary_
+        Create this random quadtree.
         """
         
         super().__init__(x_min,
@@ -65,16 +65,16 @@ class RandomQuadTree(BaseTree):
         
         
     def evaluate_point(self, node: QuadNode, rng_seed: int = 123456) -> QuadPoint:
-        """_summary_
+        """Evaluate point.
 
-        _extended_summary_
+        Calculate the value of one point within a given node as either 1 or 0.
 
         Args:
-            node (QuadNode): _description_
-            rng_seed (int, optional): _description_. Defaults to 123456.
+            node (QuadNode): Quadtree node in which to evaulate point.
+            rng_seed (int, optional): Random number generator seed. Defaults to 123456.
 
         Returns:
-            QuadPoint: _description_
+            QuadPoint: A QuadPoint object.
         """
         
         rng = np.random.default_rng(rng_seed)
@@ -90,25 +90,25 @@ class RandomQuadTree(BaseTree):
 
 
 class NbodyQuadTree(BaseTree):
-    """_summary_
+    """Nbody quadtree.
 
-    _extended_summary_
+    A class for creating a quadtree for running N-body simulations.
 
     Args:
-        x_min (float): _description_
-        x_max (float): _description_
-        y_min (float): _description_
-        y_max (float): _description_
-        simulation_fnc (callable): _description_
-        split_threshold (float, optional): _description_. Defaults to 0.2.
-        node_statistic (str, optional): _description_. Defaults to 'mean'.
-        N_points (int, optional): _description_. Defaults to 20.
-        min_depth (int, optional): _description_. Defaults to 3.
-        max_depth (int, optional): _description_. Defaults to 6.
-        N_proc (int, optional): _description_. Defaults to 1.
-        verbose (bool, optional): _description_. Defaults to False.
-        filename_points (str, optional): _description_. Defaults to 'points.txt'.
-        filename_nodes (str, optional): _description_. Defaults to 'nodes.txt'.
+        x_min (float): Minimum x value for this quadtree.
+        x_max (float): Maximum x value for this quadtree.
+        y_min (float): Minimum y value for this quadtree.
+        y_max (float): Maximum y value for this quadtree.
+        simulation_fnc (callable): Function to calculate the outcome of an Nbody simulation.
+        split_threshold (float, optional): Threshold discrepancy in order to split nodes. Defaults to 0.2.
+        node_statistic (str, optional): Statistic to compute node values ['mean', 'std', or 'median']. Defaults to 'mean'.
+        N_points (int, optional): Maximum number of points per node. Defaults to 20.
+        min_depth (int, optional): Minimum quadtree depth. Defaults to 3.
+        max_depth (int, optional):  Maximum quadtree depth. Defaults to 6.
+        N_proc (int, optional): Number of cores for multiprocessing. Defaults to 1.
+        verbose (bool, optional): Option to print node values in real time. Defaults to False.
+        filename_points (str, optional): Name of output file to save points. Defaults to 'points.txt'.
+        filename_nodes (str, optional): Name of output file to save nodes. Defaults to 'nodes.txt'.
     """
     
     def __init__(self,
@@ -127,7 +127,7 @@ class NbodyQuadTree(BaseTree):
                  filename_points: str = 'points.txt',
                  filename_nodes: str = 'nodes.txt'
                  ) -> None:
-        """_summary_
+        """__init__
 
         Create an N-body simulation quadtree.
         """
@@ -150,22 +150,23 @@ class NbodyQuadTree(BaseTree):
         
             
     def evaluate_point(self, node: QuadNode, rng_seed: int = 123456) -> QuadPoint:
-        """_summary_
+        """Evaluate point.
 
-        _extended_summary_
+        Calculate the value of one point within a given node from an N-body simulation.
 
         Args:
-            node (QuadNode): _description_
-            rng_seed (int, optional): _description_. Defaults to 123456.
+            node (QuadNode): Quadtree node in which to evaulate point.
+            rng_seed (int, optional): Random number generator seed. Defaults to 123456.
 
         Returns:
-            QuadPoint: _description_
+            QuadPoint: A QuadPoint object.
         """
         
         rng = np.random.default_rng(rng_seed)
         _x = rng.uniform(node.x_min, node.x_max)
         _y = rng.uniform(node.y_min, node.y_max)
         
+        # run N-body sim
         sim = self.simulation_fnc((_x, _y))
         
         point = QuadPoint(_x, _y, sim)
