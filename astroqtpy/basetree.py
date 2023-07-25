@@ -256,7 +256,7 @@ class BaseTree(abc.ABC):
             self.squeeze_node(node.child_sw)
             self.squeeze_node(node.child_se)
             
-    
+            
     def run_quadtree(self) -> None:
         """Run quadtree.
         
