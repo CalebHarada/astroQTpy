@@ -15,11 +15,3 @@ Welcome to astroQTpy's documentation!
    tutorials
    api
 
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
