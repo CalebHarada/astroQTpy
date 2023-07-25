@@ -91,18 +91,26 @@ class RandomQuadTree(BaseTree):
 
 class Chi2QuadTree(BaseTree):
     """Chi2 quadtree.
-
-    A class for creating a quadtree to map 2-parameter chi-squared values.
-
+    
+    A quadtree class for mapping 2-parameter reduced :math:`\\chi^2` values.
+    
+    .. math::
+        \\chi^2_r = \\frac{\\chi^2}{\\nu}
+        
+    where :math:`\\nu` is the number of degrees of freedom and
+    
+    .. math::
+        \\chi^2 = \\sum_{i=0}^{N-1} \\frac{\\Big(y_i - f(x_i | a, b)\\Big)^2}{\\sigma_i^2}
+        
     Args:
-        x_min (float): Minimum x value for this quadtree.
-        x_max (float): Maximum x value for this quadtree.
-        y_min (float): Minimum y value for this quadtree.
-        y_max (float): Maximum y value for this quadtree.
-        data (np.ndarray): Data array. Must have shape (2, N).
-        model_fnc (callable): Function to calculate a model to compare to data.
-        weights (np.ndarray, optional): Data weights, typically expressed as 1/sigma^2. Defaults to None.
-        max_chi2 (float, optional): Largest permitted reduced chi^2. Defaults to 10.
+        x_min (float): Minimum x value (param `a`) for this quadtree.
+        x_max (float): Maximum x value (param `a`)for this quadtree.
+        y_min (float): Minimum y value (param `b`)for this quadtree.
+        y_max (float): Maximum y value (param `b`)for this quadtree.
+        data (:obj:`np.ndarray`): Data array. Must have shape (2, N).
+        model_fnc (callable): Function :math:`f(x | a, b)` to calculate a model to compare to data.
+        weights (:obj:`np.ndarray`, optional): Data weights, typically expressed as :math:`1/\\sigma^2`. Defaults to None.
+        max_chi2 (float, optional): Largest permitted reduced :math:`\\chi^2`. Defaults to 10.
         split_threshold (float, optional): Threshold discrepancy in order to split nodes. Defaults to 0.2.
         node_statistic (str, optional): Statistic to compute node values ['mean', 'std', or 'median']. Defaults to 'mean'.
         N_points (int, optional): Maximum number of points per node. Defaults to 20.
