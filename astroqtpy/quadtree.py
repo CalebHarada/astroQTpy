@@ -186,9 +186,7 @@ class Chi2QuadTree(BaseTree):
             self.max_chi2 = max_chi2
             
         # define other attributes
-        self.chi2_min_point = QuadPoint(0, 0, np.inf)  # dummy point
-        # self.chi2_min_node = QuadNode(0, 1, 0, 1)
-        # self.chi2_min_node.node_points.append(QuadPoint(0.5, 0.5, np.inf))  # dummy point
+        self.chi2_min_point = QuadPoint(0, 0, np.inf)  # just a dummy point for now
         
     
     def evaluate_point(self, node: QuadNode, rng_seed: int = 123456) -> QuadPoint:
@@ -230,7 +228,7 @@ class Chi2QuadTree(BaseTree):
     def _find_chi2_min(self, node: QuadNode) -> None:
         """Find chi^2 min.
 
-        Convenience function to locate the node with the smallest chi^2 value.
+        Convenience function to locate the point with the smallest chi^2 value.
 
         Args:
             node (QuadNode): Quadtree node.
@@ -245,19 +243,15 @@ class Chi2QuadTree(BaseTree):
         for point in node.node_points:
             if point.value < self.chi2_min_point.value:
                 self.chi2_min_point = point
-                
-        # if np.isfinite(node.get_node_value(self.node_statistic)):
-        #     if node.get_node_value(self.node_statistic) < self.chi2_min_node.get_node_value(self.node_statistic):
-        #         self.chi2_min_node = node
             
     
     def get_chi2_min(self) -> QuadPoint:
         """Get chi^2 min.
 
-        Get the node with the smallest reduced chi^2 value.
+        Get the point with the smallest reduced chi^2 value.
         
         Returns:
-            QuadNode: Quadtree node with least chi^2.
+            QuadPoint: Quadtree point with least chi^2.
         """
         
         if not np.isfinite(self.chi2_min_point.value):
