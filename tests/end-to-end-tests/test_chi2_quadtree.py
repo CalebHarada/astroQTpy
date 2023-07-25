@@ -45,6 +45,16 @@ def test_chi2quadtree() -> None:
                              filename_points='./tests/end-to-end-tests/test_outputs/chi2tree_points.txt',
                              filename_nodes='./tests/end-to-end-tests/test_outputs/chi2tree_nodes.txt'
                              )    
+    with pytest.raises(ValueError):
+        test_tree = Chi2QuadTree(0.5, 2.5, 7, 5, data, calc_model)
+    with pytest.raises(ValueError):
+        test_tree = Chi2QuadTree(0.5, 2.5, 0, 5, data.T, calc_model, weights=weights)
+    with pytest.raises(ValueError):
+        test_tree = Chi2QuadTree(0.5, 2.5, 0, 5, data, calc_model, weights=weights[1:])
+    with pytest.raises(ValueError):
+        test_tree = Chi2QuadTree(0.5, 2.5, 0, 5, data, calc_model, weights=weights, max_chi2=0)
+    with pytest.raises(TypeError):
+        test_tree = Chi2QuadTree(0.5, 2.5, 0, 5, data, "calc_model", weights=weights)
     
     # run tree
     test_tree.run_quadtree()
