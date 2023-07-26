@@ -4,7 +4,7 @@
 
 
 
-<a href="https://zenodo.org/badge/latestdoi/666798611">
+<a href="https://zenodo.org/badge/latestdoi/666798611" target=_blank>
     <img src="https://zenodo.org/badge/666798611.svg" alt="DOI">
 </a>
 
