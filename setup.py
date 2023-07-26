@@ -24,11 +24,6 @@ setup(
     author_email="charad@berkeley.edu",
     license="MIT",
     packages=find_packages(),
-    classifiers=[
-        "Intended Audience :: Science/Research",
-        "Topic :: Scientific/Engineering :: Astronomy"
-        "Programming Language :: Python :: 3.11",
-    ],
     keywords="Quadtree Astronomy",
     install_requires=get_requires(),
 )
