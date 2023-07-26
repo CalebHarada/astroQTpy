@@ -17,7 +17,7 @@ def get_requires():
 
 setup(
     name="astroQTpy",
-    version=get_property("__version__", "astroQTpy"),
+    version=get_property("__version__", "astroqtpy"),
     description="astroQTpy implements a quadtree data structure to explore 2D parameter space",
     url="https://github.com/CalebHarada/astroQTpy",
     author="Caleb K. Harada",
