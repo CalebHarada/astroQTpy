@@ -1,7 +1,6 @@
 __version__ = "0.0.1"
 
 ## TO DO:
-##     - comment chi2 mapping tutorial notebook
 ##     - release on GitHub / Zenodo
 ##     - create readthedocs website
 
