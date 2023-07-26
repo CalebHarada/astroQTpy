@@ -1,3 +1,5 @@
 numpy
 matplotlib
 rebound
+sphinx
+pytest
