@@ -1,6 +1,6 @@
 .. _basetree:
 
-Base Quadtree
+Basetree
 ==============
 
 The :obj:`BaseTree` abstract base class for all astroQTpy quadtree types.

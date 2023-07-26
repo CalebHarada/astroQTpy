@@ -7,3 +7,4 @@ Classes for all astroQTpy quadtree types.
 
 .. automodule:: astroqtpy.quadtree
    :members:
+   :inherited-members:
