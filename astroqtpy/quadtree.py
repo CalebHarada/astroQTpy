@@ -102,13 +102,30 @@ class Chi2QuadTree(BaseTree):
     .. math::
         \\chi^2 = \\sum_{i=0}^{N-1} \\frac{\\Big(y_i - f(x_i | a, b)\\Big)^2}{\\sigma_i^2}
         
+    .. note::
+    
+        The `model_func` argument must be callable and take two arguments: `x_data` and parameters `(a, b)`.
+        It must return a single float value `y`. For example:
+        
+        .. code-block:: python
+        
+            def my_model(x, parameters):
+                a, b = parameters  # unpack parameters
+                
+                # ... do something ...
+                y = a * x + b
+                
+                return y
+                
+        See tutorials for more examples.
+        
     Args:
         x_min (float): Minimum x value (param `a`) for this quadtree.
         x_max (float): Maximum x value (param `a`)for this quadtree.
         y_min (float): Minimum y value (param `b`)for this quadtree.
         y_max (float): Maximum y value (param `b`)for this quadtree.
         data (:obj:`np.ndarray`): Data array. Must have shape (2, N).
-        model_fnc (callable): Function :math:`f(x | a, b)` to calculate a model to compare to data.
+        model_func (callable): Function :math:`f(x | a, b)` to calculate a model to compare to data.
         weights (:obj:`np.ndarray`, optional): Data weights, typically expressed as :math:`1/\\sigma^2`. Defaults to None.
         max_chi2 (float, optional): Largest permitted reduced :math:`\\chi^2`. Defaults to 10.
         split_threshold (float, optional): Threshold discrepancy in order to split nodes. Defaults to 0.2.
@@ -128,7 +145,7 @@ class Chi2QuadTree(BaseTree):
                  y_min: float,
                  y_max: float,
                  data: np.ndarray,
-                 model_fnc: callable,
+                 model_func: callable,
                  weights: np.ndarray = None,
                  max_chi2: float = 10,
                  split_threshold: float = 0.2,
@@ -167,10 +184,10 @@ class Chi2QuadTree(BaseTree):
         else:
             self.data = data
         
-        if not callable(model_fnc):
-            raise TypeError('model_fnc must be callable.')
+        if not callable(model_func):
+            raise TypeError('model_func must be callable.')
         else:
-            self.model_fnc = model_fnc
+            self.model_func = model_func
             
         if weights is not None:
             if len(weights) != np.shape(data)[1]:
@@ -211,7 +228,7 @@ class Chi2QuadTree(BaseTree):
         
         # calculate model
         model_params = (_x, _y)
-        y_model = self.model_fnc(x_data, model_params)
+        y_model = self.model_func(x_data, model_params)
         
         # calculate chi-squared
         dof = len(y_data) - 2
@@ -270,13 +287,31 @@ class NbodyQuadTree(BaseTree):
     """Nbody quadtree.
 
     A class for creating a quadtree for running N-body simulations.
+    
+    .. note::
+    
+        The `simulation_func` argument must be callable and take a single argument `(x, y)`.
+        It must return a single float value. For example:
+        
+        .. code-block:: python
+        
+            def my_function(parameters):
+                x, y = parameters  # unpack parameters
+                
+                # ... do something ...
+                number = float(1)
+                
+                return number
+                
+        See tutorials for more examples.
+
 
     Args:
         x_min (float): Minimum x value for this quadtree.
         x_max (float): Maximum x value for this quadtree.
         y_min (float): Minimum y value for this quadtree.
         y_max (float): Maximum y value for this quadtree.
-        simulation_fnc (callable): Function to calculate the outcome of an Nbody simulation.
+        simulation_func (callable): Function to calculate the outcome of an Nbody simulation.
         split_threshold (float, optional): Threshold discrepancy in order to split nodes. Defaults to 0.2.
         node_statistic (str, optional): Statistic to compute node values ['mean', 'std', or 'median']. Defaults to 'mean'.
         N_points (int, optional): Maximum number of points per node. Defaults to 20.
@@ -292,7 +327,7 @@ class NbodyQuadTree(BaseTree):
                  x_max: float,
                  y_min: float,
                  y_max: float,
-                 simulation_fnc: callable,
+                 simulation_func: callable,
                  split_threshold: float = 0.2,
                  node_statistic: str = 'mean',
                  N_points: int = 20,
@@ -322,10 +357,10 @@ class NbodyQuadTree(BaseTree):
                          filename_nodes)
         
         # check that input function is callable
-        if not callable(simulation_fnc):
-            raise TypeError('simulation_fnc must be callable.')
+        if not callable(simulation_func):
+            raise TypeError('simulation_func must be callable.')
         else:
-            self.simulation_fnc = simulation_fnc
+            self.simulation_func = simulation_func
         
             
     def evaluate_point(self, node: QuadNode, rng_seed: int = 123456) -> QuadPoint:
@@ -345,7 +380,7 @@ class NbodyQuadTree(BaseTree):
         _y = rng.uniform(node.y_min, node.y_max)
         
         # run N-body sim
-        sim = self.simulation_fnc((_x, _y))
+        sim = self.simulation_func((_x, _y))
         
         point = QuadPoint(_x, _y, sim)
     
