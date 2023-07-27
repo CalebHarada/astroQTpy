@@ -1,8 +1,7 @@
-__version__ = "0.0.1"
+__version__ = "0.1.1"
 
 ## TO DO:
-##     - release on GitHub / Zenodo
-##     - create readthedocs website
+##     - update readthedocs website
 
 ##     - email Kristo
 ##     - advanced tutorial on defining a custion class
