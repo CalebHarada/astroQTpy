@@ -1,3 +1,5 @@
+.. _home:
+
 .. image:: img/astroQTpy_logo_withtext.png
    :width: 60%
    :align: center
@@ -35,13 +37,15 @@
 
 
 What is astroQTpy?
-++++++++++++++++++
+------------------
 
+write words here.
 
 
 Why use quadtrees?
-++++++++++++++++++
+------------------
 
+write more words here!
 
 
 Attribution:
@@ -62,6 +66,10 @@ User Guide:
 
 Changelog:
 ++++++++++
+
+**0.1.2 (2023-07-27)**
+
+- Update docs, etc. (@CalebHarada)
 
 **0.1.1 (2023-07-26)**
 
