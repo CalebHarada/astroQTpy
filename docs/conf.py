@@ -54,7 +54,7 @@ exclude_patterns = []
 # a list of builtin themes.
 #
 html_theme = 'sphinx_rtd_theme'
-html_logo = 'astroQTpy_logo_justpie_small.png'
+html_logo = 'img/astroQTpy_logo_justpie_small.png'
 html_theme_options = {
     'logo_only': False,
     'display_version': True,
