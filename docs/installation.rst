@@ -12,9 +12,8 @@ Installation
 	$ pip install astroqtpy
 
 
-(Stolen from ``orbitize!``:)
-We recommend installing and running ``astroqtpy`` in a ``conda`` virtual
-environment. Install ``anaconda`` or ``miniconda`` 
-`here <https://conda.io/miniconda.html>`_, then see 
-`these instructions <https://conda.io/docs/user-guide/tasks/manage-environments.html>`_
-to learn more about ``conda`` virtual environments.
+[Stolen from `orbitize! <https://orbitize.readthedocs.io/en/latest/>`_ docs] We recommend installing 
+and running ``astroqtpy`` in a ``conda`` virtual environment. Install ``anaconda`` or 
+``miniconda`` `here <https://conda.io/miniconda.html>`_, then see 
+`these instructions <https://conda.io/docs/user-guide/tasks/manage-environments.html>`_ to learn more 
+about ``conda`` virtual environments.
