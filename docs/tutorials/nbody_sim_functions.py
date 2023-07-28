@@ -27,8 +27,8 @@ def exomoon_simulation(params):
     period_planet = 542.08 * DAY_TO_YEAR * 2*np.pi  # planet orbital period
     
     # hyperparams
-    sim_time = 1000  # run for 1000 years
-    N_outputs = 1000
+    sim_time = 1e2  # run for 100 years
+    N_outputs = 50
     
     # random mean anomaly for moon
     ma_moon = np.random.uniform(0, 2*np.pi)

@@ -41,6 +41,8 @@ What is astroQTpy?
 
 write words here.
 
+``astroQTpy`` is a living project.
+
 
 Why use quadtrees?
 ------------------
