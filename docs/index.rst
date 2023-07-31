@@ -130,6 +130,10 @@ User Guide:
 Changelog:
 ++++++++++
 
+**0.1.4 (2023-07-31)**
+
+- Complete documentation (@CalebHarada)
+
 **0.1.3 (2023-07-28)**
 
 - New tutorials, update docs, etc. (@CalebHarada)
