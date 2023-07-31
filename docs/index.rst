@@ -54,6 +54,8 @@ As an added bonus, quadtrees look really cool when you plot them. Nice!
 .. image:: img/nbody_megno_tutorial_quadtree.png
    :width: 45%
 
+To get started using ``astroQTpy``, check out the :ref:`quickstart` guide or follow along with the :ref:`tutorials`.
+
 
 Why use quadtrees?
 ------------------
@@ -78,7 +80,8 @@ Just to name a few examples where you might use a quadtree:
 .. Note::
    
    ``astroQTpy`` is a living project that will be continually updated and upgraded over time. Check back for updates 
-   or feel free to give us suggestions! (You can also define your own ``astroQTpy`` class -- check out the tutorials for more info!) 
+   or feel free to give us suggestions by `creating a new issue on GitHub <https://github.com/CalebHarada/astroQTpy/issues>`_. 
+   You can also define your own custom ``astroQTpy`` class -- check out the tutorials for more info!
 
 
 Attribution:
