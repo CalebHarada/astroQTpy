@@ -26,4 +26,4 @@
     </a>
 </p>
 
-Welcome to `astroQTpy` (Astronomy Quad Trees in Python), a Python package for efficiently mapping 2D paramater space using quadtrees. For installation instructions, tutorials, and detailed documentation: [read the docs](https://astroqtpy.readthedocs.io/en/latest/)!
+Welcome to `astroQTpy` (Astronomy Quad Trees in Python), a Python package for efficiently mapping 2D parameter space using quadtrees. For installation instructions, tutorials, and detailed documentation: [read the docs](https://astroqtpy.readthedocs.io/en/latest/)!

@@ -30,7 +30,7 @@
 
    <p align="center">
       Hello! Welcome to the documentation for <code style="color:red">astroQTpy</code> (Astronomy Quad Trees in Python), 
-      a Python package for efficiently mapping 2D paramater space using quadtrees.
+      a Python package for efficiently mapping 2D parameter space using quadtrees.
    </p>
 
    <br />
