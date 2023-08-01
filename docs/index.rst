@@ -87,19 +87,19 @@ Just to name a few examples where you might use a quadtree:
 Attribution:
 ++++++++++++
 
-* If you use ``astroQTpy`` in your work, please cite our `Zenodo <https://zenodo.org/record/8190984>`_:
+* If you use ``astroQTpy`` in your work, please cite our `Zenodo <https://zenodo.org/record/8187916>`_:
 
 .. code-block:: TeX
 
    @software{harada_astroQTpy_2023,
       author       = {Caleb K. Harada},
       title        = {astroQTpy},
-      month        = July,
+      month        = jul,
       year         = 2023,
       publisher    = {Zenodo},
-      version      = {},
-      doi          = {10.5281/zenodo.8190984},
-      url          = {https://doi.org/10.5281/zenodo.8190984}
+      version      = {latest},
+      doi          = {10.5281/zenodo.8187916},
+      url          = {https://doi.org/10.5281/zenodo.8187916}
    }
 
 * If you use `REBOUND <https://rebound.readthedocs.io/en/latest/>`_ or any of dependencies,
