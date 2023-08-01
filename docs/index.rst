@@ -56,6 +56,12 @@ As an added bonus, quadtrees look really cool when you plot them. Nice!
 
 To get started using ``astroQTpy``, check out the :ref:`quickstart` guide or follow along with the :ref:`tutorials`.
 
+.. Note::
+   
+   ``astroQTpy`` is a living project that will be continually updated and upgraded over time. Check back for updates 
+   or feel free to give us suggestions by `creating a new issue on GitHub <https://github.com/CalebHarada/astroQTpy/issues>`_. 
+   You can also define your own custom ``astroQTpy`` class -- check out the tutorials for more info!
+
 
 Why use quadtrees?
 ------------------
@@ -76,12 +82,6 @@ Just to name a few examples where you might use a quadtree:
 * Pipeline sensitivity maps.
 
    - E.g., Exoplanet transit injection/recovery tests as a function of :math:`R_p/R_*` and period.
-
-.. Note::
-   
-   ``astroQTpy`` is a living project that will be continually updated and upgraded over time. Check back for updates 
-   or feel free to give us suggestions by `creating a new issue on GitHub <https://github.com/CalebHarada/astroQTpy/issues>`_. 
-   You can also define your own custom ``astroQTpy`` class -- check out the tutorials for more info!
 
 
 Attribution:
@@ -112,8 +112,11 @@ Attribution:
    sim.cite()
 
 
+.. Note::
 
-
+   The backbone of ``astroQTpy`` is based upon the quadtree algorithm described
+   by `Ment & Charbonneau (2023) <https://ui.adsabs.harvard.edu/abs/2023AJ....165..265M/abstract>`_.
+   We thank the authors for their insight and helpful discussions about quadtrees.
 
 
 User Guide:
