@@ -133,6 +133,10 @@ User Guide:
 Changelog:
 ++++++++++
 
+**0.1.5 (2023-08-03)**
+
+- Minor bug fixes (@CalebHarada)
+
 **0.1.4 (2023-07-31)**
 
 - Complete documentation (@CalebHarada)
