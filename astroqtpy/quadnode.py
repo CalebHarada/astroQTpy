@@ -218,9 +218,10 @@ class QuadNode():
                         )
             
             if show_points:
-                ax.scatter(*zip(*[(point.x, point.y) for point in self.node_points]),
-                           c='k', s=1, marker='.', alpha=0.8, rasterized=True
-                           )
+                if len(self.node_points) > 0:
+                    ax.scatter(*zip(*[(point.x, point.y) for point in self.node_points]),
+                            c='k', s=1, marker='.', alpha=0.8, rasterized=True
+                            )
                 
             if show_values:
                 x_mid = 0.5 * (x1 + x2)

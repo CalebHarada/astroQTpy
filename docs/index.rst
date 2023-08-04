@@ -3,6 +3,7 @@
 .. image:: img/astroQTpy_logo_withtext.png
    :width: 60%
    :align: center
+   :alt: astroQTpy logo
 
 .. raw:: html
 
@@ -51,8 +52,10 @@ As an added bonus, quadtrees look really cool when you plot them. Nice!
 
 .. image:: img/linear_chi2_tutorial_quadtree.png
    :width: 45%
+   :alt: Example of a chi-squared quadtree
 .. image:: img/nbody_megno_tutorial_quadtree.png
    :width: 45%
+   :alt: Example of an N-body stability map quadtree
 
 To get started using ``astroQTpy``, check out the :ref:`quickstart` guide or follow along with the :ref:`tutorials`.
 
@@ -82,6 +85,11 @@ Just to name a few examples where you might use a quadtree:
 * Pipeline sensitivity maps.
 
    - E.g., Exoplanet transit injection/recovery tests as a function of :math:`R_p/R_*` and period.
+
+.. image:: img/quadtree_animation.gif
+   :width: 60%
+   :align: center
+   :alt: GIF animation showing the progression of an N-body quadtree
 
 
 Attribution:
@@ -132,6 +140,10 @@ User Guide:
 
 Changelog:
 ++++++++++
+
+**0.1.5 (2023-08-03)**
+
+- Minor bug fixes, update docs (@CalebHarada)
 
 **0.1.4 (2023-07-31)**
 
