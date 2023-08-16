@@ -26,6 +26,7 @@ class RandomQuadTree(BaseTree):
         verbose (bool, optional): Option to print node values in real time. Defaults to False.
         filename_points (str, optional): Name of output file to save points. Defaults to 'points.txt'.
         filename_nodes (str, optional): Name of output file to save nodes. Defaults to 'nodes.txt'.
+        overwrite (bool, optional): Option to automatically overwrite previously saved results. Defaults to False.
     """
     
     def __init__(self,
@@ -41,7 +42,8 @@ class RandomQuadTree(BaseTree):
                  N_proc: int = 1,
                  verbose: bool = False,
                  filename_points: str = 'points.txt',
-                 filename_nodes: str = 'nodes.txt'
+                 filename_nodes: str = 'nodes.txt',
+                 overwrite: bool = False,
                  ) -> None:
         """__init__
 
@@ -59,7 +61,8 @@ class RandomQuadTree(BaseTree):
                          N_proc,
                          verbose,
                          filename_points,
-                         filename_nodes
+                         filename_nodes,
+                         overwrite
                          )
         
         
@@ -137,6 +140,7 @@ class Chi2QuadTree(BaseTree):
         verbose (bool, optional): Option to print node values in real time. Defaults to False.
         filename_points (str, optional): Name of output file to save points. Defaults to 'points.txt'.
         filename_nodes (str, optional): Name of output file to save nodes. Defaults to 'nodes.txt'.
+        overwrite (bool, optional): Option to automatically overwrite previously saved results. Defaults to False.
     """
     
     def __init__(self,
@@ -156,7 +160,8 @@ class Chi2QuadTree(BaseTree):
                  N_proc: int = 1,
                  verbose: bool = False,
                  filename_points: str = 'points.txt',
-                 filename_nodes: str = 'nodes.txt'
+                 filename_nodes: str = 'nodes.txt',
+                 overwrite: bool = False,
                  ) -> None:
         """__init__
 
@@ -174,7 +179,9 @@ class Chi2QuadTree(BaseTree):
                          N_proc,
                          verbose,
                          filename_points, 
-                         filename_nodes)
+                         filename_nodes,
+                         overwrite
+                         )
         
         # check inputs
         if not type(data) == np.ndarray:
@@ -321,6 +328,7 @@ class NbodyQuadTree(BaseTree):
         verbose (bool, optional): Option to print node values in real time. Defaults to False.
         filename_points (str, optional): Name of output file to save points. Defaults to 'points.txt'.
         filename_nodes (str, optional): Name of output file to save nodes. Defaults to 'nodes.txt'.
+        overwrite (bool, optional): Option to automatically overwrite previously saved results. Defaults to False.
     """
     def __init__(self,
                  x_min: float,
@@ -336,7 +344,8 @@ class NbodyQuadTree(BaseTree):
                  N_proc: int = 1,
                  verbose: bool = False,
                  filename_points: str = 'points.txt',
-                 filename_nodes: str = 'nodes.txt'
+                 filename_nodes: str = 'nodes.txt',
+                 overwrite: bool = False,
                  ) -> None:
         """__init__
 
@@ -354,7 +363,9 @@ class NbodyQuadTree(BaseTree):
                          N_proc,
                          verbose,
                          filename_points,
-                         filename_nodes)
+                         filename_nodes,
+                         overwrite
+                         )
         
         # check that input function is callable
         if not callable(simulation_func):
