@@ -1,4 +1,4 @@
-import sys
+import sys, os
 import abc
 
 import numpy as np
@@ -287,13 +287,23 @@ class BaseTree(abc.ABC):
         
         Run the quadtree from a previously saved run, or start a new run.
         """
-        # attempt to load previous results
-        try:
-            print("Attempting to load previous results...")
-            self.load_points()
-            print(f"   {self.node_count} nodes found, starting from previous checkpoint...")
-        except FileNotFoundError:
-            print("   No previous results found, starting new...")
+        # overwrite previous results if overwrite is True
+        if self.overwrite:
+            print("   Overwrite previous results, starting new...")
+            try:
+                os.remove(self.filename_points)
+                os.remove(self.filename_nodes)
+            except OSError:
+                pass
+            
+        # otherwise attempt to load previous results
+        else:
+            try:
+                print("Attempting to load previous results...")
+                self.load_points()
+                print(f"   {self.node_count} nodes found, starting from previous checkpoint...")
+            except FileNotFoundError:
+                print("   No previous results found, starting new...")
 
         # must execute at least minimum depth nodes
         for _ in range(self.min_depth):
