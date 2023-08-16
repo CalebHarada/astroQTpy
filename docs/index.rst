@@ -141,6 +141,10 @@ User Guide:
 Changelog:
 ++++++++++
 
+**0.1.6 (2023-08-16)**
+
+- Add overwrite option (@CalebHarada)
+
 **0.1.5 (2023-08-03)**
 
 - Minor bug fixes, update docs (@CalebHarada)
