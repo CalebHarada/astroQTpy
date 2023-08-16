@@ -23,7 +23,7 @@ author = 'Caleb K. Harada'
 root_doc = 'index'
 
 # The full version, including alpha/beta/rc tags
-release = '0.1.5'
+release = '0.1.6'
 
 
 # -- General configuration ---------------------------------------------------

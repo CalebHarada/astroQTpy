@@ -1,4 +1,4 @@
-import sys
+import sys, os
 import abc
 
 import numpy as np
@@ -28,6 +28,7 @@ class BaseTree(abc.ABC):
         verbose (bool, optional): Option to print node values in real time. Defaults to False.
         filename_points (str, optional): Name of output file to save points. Defaults to 'points.txt'.
         filename_nodes (str, optional): Name of output file to save nodes. Defaults to 'nodes.txt'.
+        overwrite (bool, optional): Option to automatically overwrite previously saved results. Defaults to False.
     """
 
     def __init__(self,
@@ -43,7 +44,8 @@ class BaseTree(abc.ABC):
         N_proc: int = 1,
         verbose: bool = False,
         filename_points: str = 'points.txt',
-        filename_nodes: str = 'nodes.txt'
+        filename_nodes: str = 'nodes.txt',
+        overwrite: bool = False,
         ) -> None:
         """__init__
 
@@ -85,6 +87,8 @@ class BaseTree(abc.ABC):
         self.verbose = verbose
         self.filename_points = filename_points
         self.filename_nodes = filename_nodes
+        self.overwrite = overwrite
+        
         self.node_count = 1
         self.root = QuadNode(x_min, x_max, y_min, y_max, 1)
         self.min_node_value = np.inf  # for plotting limits
@@ -283,13 +287,23 @@ class BaseTree(abc.ABC):
         
         Run the quadtree from a previously saved run, or start a new run.
         """
-        # attempt to load previous results
-        try:
-            print("Attempting to load previous results...")
-            self.load_points()
-            print(f"   {self.node_count} nodes found, starting from previous checkpoint...")
-        except FileNotFoundError:
-            print("   No previous results found, starting new...")
+        # overwrite previous results if overwrite is True
+        if self.overwrite:
+            print("   Overwrite previous results, starting new...")
+            try:
+                os.remove(self.filename_points)
+                os.remove(self.filename_nodes)
+            except OSError:
+                pass
+            
+        # otherwise attempt to load previous results
+        else:
+            try:
+                print("Attempting to load previous results...")
+                self.load_points()
+                print(f"   {self.node_count} nodes found, starting from previous checkpoint...")
+            except FileNotFoundError:
+                print("   No previous results found, starting new...")
 
         # must execute at least minimum depth nodes
         for _ in range(self.min_depth):
