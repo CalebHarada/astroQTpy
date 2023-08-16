@@ -20,7 +20,7 @@ class BaseTree(abc.ABC):
         y_min (float): Minimum y value for this quadtree.
         y_max (float): Maximum y value for this quadtree.
         split_threshold (float, optional): Threshold discrepancy in order to split nodes. Defaults to 0.2.
-        node_statistic (str, optional): Statistic to compute node values ['mean', 'std', or 'median']. Defaults to 'mean'.
+        node_statistic (str, optional): Statistic to compute node values ['count', 'mean', 'std', or 'median']. Defaults to 'mean'.
         N_points (int, optional): Maximum number of points per node. Defaults to 20.
         min_depth (int, optional): Minimum quadtree depth. Defaults to 3.
         max_depth (int, optional):  Maximum quadtree depth. Defaults to 6.
@@ -62,10 +62,10 @@ class BaseTree(abc.ABC):
         else:
             self.split_threshold = split_threshold
             
-        if node_statistic in ['mean', 'median', 'std']:
+        if node_statistic in ['count', 'mean', 'median', 'std']:
             self.node_statistic = node_statistic
         else:
-            raise ValueError('node_statistic must be either "mean, "median", or "std"')
+            raise ValueError('node_statistic must be either "count", "mean, "median", or "std"')
         
         if N_points <= 0:
             raise ValueError('N_points must be greater than zero.')
