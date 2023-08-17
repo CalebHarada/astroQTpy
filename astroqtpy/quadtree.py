@@ -411,13 +411,10 @@ class Hist2dQuadTree(BaseTree):
         x_max (float): Maximum x value for this quadtree.
         y_min (float): Minimum y value for this quadtree.
         y_max (float): Maximum y value for this quadtree.
-        node_statistic (str, optional): Statistic to compute node values ['count', 'mean', 'std', or 'median']. Defaults to 'mean'.
+        node_statistic (str, optional): Statistic to compute node values ['count', 'mean', 'std', or 'median']. Defaults to 'count'.
         N_points (int, optional): Maximum number of points per node. Defaults to 20.
         min_depth (int, optional): Minimum quadtree depth. Defaults to 3.
         max_depth (int, optional):  Maximum quadtree depth. Defaults to 6.
-        filename_points (str, optional): Name of output file to save points. Defaults to 'points.txt'.
-        filename_nodes (str, optional): Name of output file to save nodes. Defaults to 'nodes.txt'.
-        overwrite (bool, optional): Option to automatically overwrite previously saved results. Defaults to False.
     """
     def __init__(self,
                  x_min: float,
@@ -428,9 +425,6 @@ class Hist2dQuadTree(BaseTree):
                  N_points: int = 20,
                  min_depth: int = 3,
                  max_depth: int = 6,
-                 filename_points: str = 'points.txt',
-                 filename_nodes: str = 'nodes.txt',
-                 overwrite: bool = False,
                  ) -> None:
         """__init__
 
@@ -444,9 +438,6 @@ class Hist2dQuadTree(BaseTree):
                          N_points=N_points,
                          min_depth=min_depth,
                          max_depth=max_depth,
-                         filename_points=filename_points,
-                         filename_nodes=filename_nodes,
-                         overwrite=overwrite
                          )
         
             

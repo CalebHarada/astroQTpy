@@ -193,7 +193,7 @@ class QuadNode():
     
     
     def draw_node(self, ax: axes.Axes, mappable: cm.ScalarMappable,
-                  show_lines: bool, show_points: bool, show_values: bool,
+                  show_colors: bool, show_lines: bool, show_points: bool, show_values: bool,
                   statistic: str) -> None:
         """Draw node.
 
@@ -202,6 +202,7 @@ class QuadNode():
         Args:
             ax (:obj:`matplotlib.axes.Axes`): Axis for plotting.
             mappable (:obj:`matplotlib.cm.ScalarMappable`): Scalar mappable for color mapping.
+            show_colors (bool): Whether to draw colors inside nodes.
             show_lines (bool): Whether to draw boundary lines between nodes.
             show_points (bool): Whether to plot points contained within this node.
             show_values (bool): Whether to print the value of this node on the plot.
@@ -212,7 +213,9 @@ class QuadNode():
         y1, y2 = self.y_min, self.y_max
         
         if not self._is_split():
-            ax.fill_between([x1,x2], [y1,y1], [y2,y2], color=mappable.to_rgba(self.get_node_value(statistic)))
+            if show_colors:
+                ax.fill_between([x1,x2], [y1,y1], [y2,y2], color=mappable.to_rgba(self.get_node_value(statistic))
+                                )
             
             if show_lines:
                 ax.plot([x1, x2, x2, x1, x1], [y2, y2, y1, y1, y2],
