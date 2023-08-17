@@ -480,10 +480,10 @@ class Hist2dQuadTree(BaseTree):
                 point = QuadPoint(float(x[i]), float(y[i]), float(z[i]))
                 self.root.node_points.append(point)
         
-        # if no z is specified, set to 0
+        # if no z is specified, set to nan
         else:
             for i in range(len(x)):
-                point = QuadPoint(float(x[i]), float(y[i]), 0.0)
+                point = QuadPoint(float(x[i]), float(y[i]), np.nan)
                 self.root.node_points.append(point)
             
         self.squeeze_node(self.root)
