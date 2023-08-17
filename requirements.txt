@@ -1,6 +1,7 @@
-numpy
-matplotlib
-rebound
 astropy
-sphinx
+astroquery
+matplotlib
+numpy
 pytest
+rebound
+sphinx
