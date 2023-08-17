@@ -18,7 +18,7 @@ class RandomQuadTree(BaseTree):
         y_min (float): Minimum y value for this quadtree.
         y_max (float): Maximum y value for this quadtree.
         split_threshold (float, optional): Threshold discrepancy in order to split nodes. Defaults to 0.2.
-        node_statistic (str, optional): Statistic to compute node values ['mean', 'std', or 'median']. Defaults to 'mean'.
+        node_statistic (str, optional): Statistic to compute node values ['count', 'mean', 'std', or 'median']. Defaults to 'mean'.
         N_points (int, optional): Maximum number of points per node. Defaults to 20.
         min_depth (int, optional): Minimum quadtree depth. Defaults to 3.
         max_depth (int, optional):  Maximum quadtree depth. Defaults to 6.
@@ -26,6 +26,7 @@ class RandomQuadTree(BaseTree):
         verbose (bool, optional): Option to print node values in real time. Defaults to False.
         filename_points (str, optional): Name of output file to save points. Defaults to 'points.txt'.
         filename_nodes (str, optional): Name of output file to save nodes. Defaults to 'nodes.txt'.
+        overwrite (bool, optional): Option to automatically overwrite previously saved results. Defaults to False.
     """
     
     def __init__(self,
@@ -41,7 +42,8 @@ class RandomQuadTree(BaseTree):
                  N_proc: int = 1,
                  verbose: bool = False,
                  filename_points: str = 'points.txt',
-                 filename_nodes: str = 'nodes.txt'
+                 filename_nodes: str = 'nodes.txt',
+                 overwrite: bool = False,
                  ) -> None:
         """__init__
 
@@ -59,7 +61,8 @@ class RandomQuadTree(BaseTree):
                          N_proc,
                          verbose,
                          filename_points,
-                         filename_nodes
+                         filename_nodes,
+                         overwrite
                          )
         
         
@@ -129,7 +132,7 @@ class Chi2QuadTree(BaseTree):
         weights (:obj:`np.ndarray`, optional): Data weights, typically expressed as :math:`1/\\sigma^2`. Defaults to None.
         max_chi2 (float, optional): Largest permitted reduced :math:`\\chi^2`. Defaults to 10.
         split_threshold (float, optional): Threshold discrepancy in order to split nodes. Defaults to 0.2.
-        node_statistic (str, optional): Statistic to compute node values ['mean', 'std', or 'median']. Defaults to 'mean'.
+        node_statistic (str, optional): Statistic to compute node values ['count', 'mean', 'std', or 'median']. Defaults to 'mean'.
         N_points (int, optional): Maximum number of points per node. Defaults to 20.
         min_depth (int, optional): Minimum quadtree depth. Defaults to 3.
         max_depth (int, optional):  Maximum quadtree depth. Defaults to 6.
@@ -137,6 +140,7 @@ class Chi2QuadTree(BaseTree):
         verbose (bool, optional): Option to print node values in real time. Defaults to False.
         filename_points (str, optional): Name of output file to save points. Defaults to 'points.txt'.
         filename_nodes (str, optional): Name of output file to save nodes. Defaults to 'nodes.txt'.
+        overwrite (bool, optional): Option to automatically overwrite previously saved results. Defaults to False.
     """
     
     def __init__(self,
@@ -156,7 +160,8 @@ class Chi2QuadTree(BaseTree):
                  N_proc: int = 1,
                  verbose: bool = False,
                  filename_points: str = 'points.txt',
-                 filename_nodes: str = 'nodes.txt'
+                 filename_nodes: str = 'nodes.txt',
+                 overwrite: bool = False,
                  ) -> None:
         """__init__
 
@@ -174,7 +179,9 @@ class Chi2QuadTree(BaseTree):
                          N_proc,
                          verbose,
                          filename_points, 
-                         filename_nodes)
+                         filename_nodes,
+                         overwrite
+                         )
         
         # check inputs
         if not type(data) == np.ndarray:
@@ -313,7 +320,7 @@ class NbodyQuadTree(BaseTree):
         y_max (float): Maximum y value for this quadtree.
         simulation_func (callable): Function to calculate the outcome of an Nbody simulation.
         split_threshold (float, optional): Threshold discrepancy in order to split nodes. Defaults to 0.2.
-        node_statistic (str, optional): Statistic to compute node values ['mean', 'std', or 'median']. Defaults to 'mean'.
+        node_statistic (str, optional): Statistic to compute node values ['count', 'mean', 'std', or 'median']. Defaults to 'mean'.
         N_points (int, optional): Maximum number of points per node. Defaults to 20.
         min_depth (int, optional): Minimum quadtree depth. Defaults to 3.
         max_depth (int, optional):  Maximum quadtree depth. Defaults to 6.
@@ -321,6 +328,7 @@ class NbodyQuadTree(BaseTree):
         verbose (bool, optional): Option to print node values in real time. Defaults to False.
         filename_points (str, optional): Name of output file to save points. Defaults to 'points.txt'.
         filename_nodes (str, optional): Name of output file to save nodes. Defaults to 'nodes.txt'.
+        overwrite (bool, optional): Option to automatically overwrite previously saved results. Defaults to False.
     """
     def __init__(self,
                  x_min: float,
@@ -336,7 +344,8 @@ class NbodyQuadTree(BaseTree):
                  N_proc: int = 1,
                  verbose: bool = False,
                  filename_points: str = 'points.txt',
-                 filename_nodes: str = 'nodes.txt'
+                 filename_nodes: str = 'nodes.txt',
+                 overwrite: bool = False,
                  ) -> None:
         """__init__
 
@@ -354,7 +363,9 @@ class NbodyQuadTree(BaseTree):
                          N_proc,
                          verbose,
                          filename_points,
-                         filename_nodes)
+                         filename_nodes,
+                         overwrite
+                         )
         
         # check that input function is callable
         if not callable(simulation_func):
@@ -388,6 +399,94 @@ class NbodyQuadTree(BaseTree):
 
         
         
+        
+        
+class Hist2dQuadTree(BaseTree):
+    """2D histogram quadtree.
+
+    A class for creating a 2D histogram quadtree given some data.
+
+    Args:
+        x_min (float): Minimum x value for this quadtree.
+        x_max (float): Maximum x value for this quadtree.
+        y_min (float): Minimum y value for this quadtree.
+        y_max (float): Maximum y value for this quadtree.
+        node_statistic (str, optional): Statistic to compute node values ['count', 'mean', 'std', or 'median']. Defaults to 'count'.
+        N_points (int, optional): Maximum number of points per node. Defaults to 20.
+        min_depth (int, optional): Minimum quadtree depth. Defaults to 3.
+        max_depth (int, optional):  Maximum quadtree depth. Defaults to 6.
+    """
+    def __init__(self,
+                 x_min: float,
+                 x_max: float,
+                 y_min: float,
+                 y_max: float,
+                 node_statistic: str = 'count',
+                 N_points: int = 20,
+                 min_depth: int = 3,
+                 max_depth: int = 6,
+                 ) -> None:
+        """__init__
+
+        Create a 2D histogram quadtree.
+        """
+        super().__init__(x_min,
+                         x_max,
+                         y_min,
+                         y_max,
+                         node_statistic=node_statistic,
+                         N_points=N_points,
+                         min_depth=min_depth,
+                         max_depth=max_depth,
+                         )
+        
+            
+    def evaluate_point(self, node: QuadNode, rng_seed: int = 123456) -> QuadPoint:
+        """Evaluate point.
+
+        Method not needed here.
+        """
+        pass
+    
+    
+    def add_data(self, x: np.ndarray, y: np.ndarray, z: np.ndarray = None):
+        """Add data.
+
+        Add x, y, and z (optional) data to this quadtree object to create a histogram.
+
+        Args:
+            x (:obj:`np.ndarray`): x data array.
+            y (:obj:`np.ndarray`): y data array. Must have same length as x.
+            z (:obj:`np.ndarray`, optional): z data array. Must have same length as x. Defaults to None.
+        """
+        
+        # check input data array
+        if not type(x) == np.ndarray:
+            raise TypeError('x must be ndarray.')
+        elif not type(y) == np.ndarray:
+            raise TypeError('y must be ndarray.')
+        elif len(y) != len(x):
+            raise ValueError('x and y arrays must have length.')
+        
+        if z is not None:
+            # check input array
+            if not type(z) == np.ndarray:
+                raise TypeError('z must be ndarray.')
+            elif len(z) != len(x):
+                raise ValueError('z must have same length as x and y.')
+            
+            # create QuadPoints
+            for i in range(len(x)):
+                point = QuadPoint(float(x[i]), float(y[i]), float(z[i]))
+                self.root.node_points.append(point)
+        
+        # if no z is specified, set to nan
+        else:
+            for i in range(len(x)):
+                point = QuadPoint(float(x[i]), float(y[i]), np.nan)
+                self.root.node_points.append(point)
+            
+        self.squeeze_node(self.root)
         
         
         

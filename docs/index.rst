@@ -46,7 +46,8 @@ four equal quadrants (or nodes).
 
 In practice, this can speed up your simulations or data analysis by focusing your computational resources on regions of parameter space where large 
 gradients or inhomogeneities exist. In other words, you don't have to waste time computing models where you know large areas of your parameter 
-space yield similar results because ``astroQTpy`` quadtrees automatically subdivide where inhomogeneities exist.
+space yield similar results because ``astroQTpy`` quadtrees automatically subdivide where inhomogeneities exist. You can also use ``astroQTpy`` to
+simply create 2D histograms of your data. 
 
 As an added bonus, quadtrees look really cool when you plot them. Nice!
 
@@ -85,6 +86,10 @@ Just to name a few examples where you might use a quadtree:
 * Pipeline sensitivity maps.
 
    - E.g., Exoplanet transit injection/recovery tests as a function of :math:`R_p/R_*` and period.
+
+* 2D histograms.
+
+   - E.g., H-R Diagram for a large number of stars.
 
 .. image:: img/quadtree_animation.gif
    :width: 60%
@@ -140,6 +145,18 @@ User Guide:
 
 Changelog:
 ++++++++++
+
+**0.2.0 (2023-08-17)**
+
+- Clean up 2D histogram feature, complete docs and tutorials (@CalebHarada)
+
+**0.1.7 (2023-08-16)**
+
+- Add 2D histogram feature (@CalebHarada)
+
+**0.1.6 (2023-08-16)**
+
+- Add overwrite option (@CalebHarada)
 
 **0.1.5 (2023-08-03)**
 

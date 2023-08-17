@@ -109,7 +109,7 @@ class QuadNode():
         Calculate an aggragate value of all points contained within this node.
         
         Args:
-            statistic (str): Statistic to compute for this node. Choose from ['mean', 'std', or 'median'].
+            statistic (str): Statistic to compute for this node. Choose from ['count', 'mean', 'std', or 'median'].
         """
                 
         if len(self.node_points) == 0:
@@ -117,14 +117,16 @@ class QuadNode():
         
         node_point_values = [point.value for point in self.node_points]
         
-        if statistic == 'mean':
+        if statistic == 'count':
+            self.node_value = len(node_point_values)
+        elif statistic == 'mean':
             self.node_value = np.mean(node_point_values)
         elif statistic == 'std':
             self.node_value = np.std(node_point_values)
         elif statistic == 'median':
             self.node_value = np.median(node_point_values)
         else:
-            raise ValueError(" Node statistic must be either 'mean', 'std', or 'median'. ")
+            raise ValueError(" Node statistic must be either 'count', 'mean', 'std', or 'median'. ")
     
     
     def get_node_value(self, statistic: str) -> float:
@@ -133,7 +135,7 @@ class QuadNode():
         Convenience function to grab this node's value.
         
         Args:
-            statistic (str): Statistic to pass to '_generate_node_value'. Choose from ['mean', 'std', or 'median'].
+            statistic (str): Statistic to pass to '_generate_node_value'. Choose from ['count', 'mean', 'std', or 'median'].
 
         Returns:
             float: Node value.
@@ -177,7 +179,7 @@ class QuadNode():
         Convenience function to print the value of this node to a given file.
         
         Args:
-            statistic (str): Statistic to pass to 'get_node_value'. Choose from ['mean', 'std', or 'median'].
+            statistic (str): Statistic to pass to 'get_node_value'. Choose from ['count', 'mean', 'std', or 'median'].
         """
         if self._is_split():
             self.child_nw.print_node_value(statistic)
@@ -191,7 +193,7 @@ class QuadNode():
     
     
     def draw_node(self, ax: axes.Axes, mappable: cm.ScalarMappable,
-                  show_lines: bool, show_points: bool, show_values: bool,
+                  show_colors: bool, show_lines: bool, show_points: bool, show_values: bool,
                   statistic: str) -> None:
         """Draw node.
 
@@ -200,17 +202,20 @@ class QuadNode():
         Args:
             ax (:obj:`matplotlib.axes.Axes`): Axis for plotting.
             mappable (:obj:`matplotlib.cm.ScalarMappable`): Scalar mappable for color mapping.
+            show_colors (bool): Whether to draw colors inside nodes.
             show_lines (bool): Whether to draw boundary lines between nodes.
             show_points (bool): Whether to plot points contained within this node.
             show_values (bool): Whether to print the value of this node on the plot.
-            statistic (str): Statistic to pass to 'get_node_value'. Choose from ['mean', 'std', or 'median'].
+            statistic (str): Statistic to pass to 'get_node_value'. Choose from ['count', 'mean', 'std', or 'median'].
         """
         # grab node limits for convenience        
         x1, x2 = self.x_min, self.x_max
         y1, y2 = self.y_min, self.y_max
         
         if not self._is_split():
-            ax.fill_between([x1,x2], [y1,y1], [y2,y2], color=mappable.to_rgba(self.get_node_value(statistic)))
+            if show_colors:
+                ax.fill_between([x1,x2], [y1,y1], [y2,y2], color=mappable.to_rgba(self.get_node_value(statistic))
+                                )
             
             if show_lines:
                 ax.plot([x1, x2, x2, x1, x1], [y2, y2, y1, y1, y2],

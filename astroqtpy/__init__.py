@@ -1,8 +1,6 @@
-__version__ = "0.1.5"
+__version__ = "0.2.0"
 
 ## TO DO:
-##     - update readthedocs
-##     - another advanced tutorial
 ##     - injection/recovery class
 
     
