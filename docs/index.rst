@@ -141,6 +141,10 @@ User Guide:
 Changelog:
 ++++++++++
 
+**0.1.7 (2023-08-16)**
+
+- Add 2D histogram feature (@CalebHarada)
+
 **0.1.6 (2023-08-16)**
 
 - Add overwrite option (@CalebHarada)
