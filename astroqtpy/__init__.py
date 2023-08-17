@@ -1,8 +1,7 @@
-__version__ = "0.1.6"
+__version__ = "0.1.7"
 
 ## TO DO:
-##     - update readthedocs
-##     - another advanced tutorial
+##     - add tutorial for 2dhist
 ##     - injection/recovery class
 
     

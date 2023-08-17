@@ -20,7 +20,7 @@ class BaseTree(abc.ABC):
         y_min (float): Minimum y value for this quadtree.
         y_max (float): Maximum y value for this quadtree.
         split_threshold (float, optional): Threshold discrepancy in order to split nodes. Defaults to 0.2.
-        node_statistic (str, optional): Statistic to compute node values ['mean', 'std', or 'median']. Defaults to 'mean'.
+        node_statistic (str, optional): Statistic to compute node values ['count', 'mean', 'std', or 'median']. Defaults to 'mean'.
         N_points (int, optional): Maximum number of points per node. Defaults to 20.
         min_depth (int, optional): Minimum quadtree depth. Defaults to 3.
         max_depth (int, optional):  Maximum quadtree depth. Defaults to 6.
@@ -62,10 +62,10 @@ class BaseTree(abc.ABC):
         else:
             self.split_threshold = split_threshold
             
-        if node_statistic in ['mean', 'median', 'std']:
+        if node_statistic in ['count', 'mean', 'median', 'std']:
             self.node_statistic = node_statistic
         else:
-            raise ValueError('node_statistic must be either "mean, "median", or "std"')
+            raise ValueError('node_statistic must be either "count", "mean, "median", or "std"')
         
         if N_points <= 0:
             raise ValueError('N_points must be greater than zero.')
@@ -368,7 +368,7 @@ class BaseTree(abc.ABC):
                                 
     
     def _draw_nodes(self, ax: axes.Axes, node: QuadNode, mappable: cm.ScalarMappable,
-                    show_lines: bool, show_points: bool, show_values: bool) -> None:
+                    show_colors: bool, show_lines: bool, show_points: bool, show_values: bool) -> None:
         """Draw nodes.
         
         Convenience function to plot quadtree nodes, including children.
@@ -377,25 +377,27 @@ class BaseTree(abc.ABC):
             ax (:obj:`matplotlib.axes.Axes`): Axis for plotting.
             node (QuadNode): Quadtree node.
             mappable (:obj:`matplotlib.cm.ScalarMappable`): Scalar mappable for color mapping.
+            show_colors (bool): Whether to draw colors inside nodes.
             show_lines (bool): Whether to draw boundary lines between nodes.
             show_points (bool): Whether to plot points contained within this node.
             show_values (bool): Whether to print the value of this node on the plot.
         """
         
         if node._is_split():
-            self._draw_nodes(ax, node.child_nw, mappable, show_lines, show_points, show_values)
-            self._draw_nodes(ax, node.child_ne, mappable, show_lines, show_points, show_values)
-            self._draw_nodes(ax, node.child_sw, mappable, show_lines, show_points, show_values)
-            self._draw_nodes(ax, node.child_se, mappable, show_lines, show_points, show_values)
+            self._draw_nodes(ax, node.child_nw, mappable, show_colors, show_lines, show_points, show_values)
+            self._draw_nodes(ax, node.child_ne, mappable, show_colors, show_lines, show_points, show_values)
+            self._draw_nodes(ax, node.child_sw, mappable, show_colors, show_lines, show_points, show_values)
+            self._draw_nodes(ax, node.child_se, mappable, show_colors, show_lines, show_points, show_values)
             
-        node.draw_node(ax, mappable, show_lines, show_points, show_values, self.node_statistic)
+        node.draw_node(ax, mappable, show_colors, show_lines, show_points, show_values, self.node_statistic)
         
     
     def draw_tree(self, ax: axes.Axes,
                   cmap: str = 'RdYlGn_r',
                   vmin: float = None,
                   vmax: float = None,
-                  show_lines: float = True,
+                  show_colors: bool = True,
+                  show_lines: bool = True,
                   show_points: bool = False,
                   show_values: bool = False
                   ) -> cm.ScalarMappable:
@@ -408,7 +410,8 @@ class BaseTree(abc.ABC):
             cmap (str, optional): Matplotlib colormap. Defaults to 'RdYlGn_r'.
             vmin (float, optional): Minimum value for colorbar. Defaults to None.
             vmax (float, optional): Maximum value for colorbar. Defaults to None.
-            show_lines (float, optional): Option to plot node boundary lines. Defaults to True.
+            show_colors (bool, optional): Option to show node colors. Defaults to True.
+            show_lines (bool, optional): Option to plot node boundary lines. Defaults to True.
             show_points (bool, optional): Option to plot node points. Defaults to False.
             show_values (bool, optional): Option to print node values on plot. Defaults to False.
 
@@ -427,6 +430,6 @@ class BaseTree(abc.ABC):
             cmap=cmap
             )
         
-        self._draw_nodes(ax, self.root, mappable, show_lines, show_points, show_values)
+        self._draw_nodes(ax, self.root, mappable, show_colors, show_lines, show_points, show_values)
         
         return mappable
