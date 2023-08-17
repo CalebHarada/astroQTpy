@@ -1,7 +1,6 @@
-__version__ = "0.1.7"
+__version__ = "0.2.0"
 
 ## TO DO:
-##     - add tutorial for 2dhist
 ##     - injection/recovery class
 
     

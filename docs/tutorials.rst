@@ -11,6 +11,7 @@ Tutorials
    tutorials/random_quadtree_tutorial.ipynb
    tutorials/linear_chi2_tutorial.ipynb
    tutorials/nbody_megno_tutorial.ipynb
+   tutorials/hist2d_tutorial.ipynb
 
 
 .. toctree::
